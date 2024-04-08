@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PetHome</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="registrate">Registrate</string>
+    <string name="iniciaSesion">Inicia sesión</string>
+    <string name="contOlvidada">¿Contraseña olvidada?</string>
+    <string-array name="sexos">
+        <item>Hombre</item>
+        <item>Mujer</item>
+        <item>Otro</item>
+    </string-array>
+</resources>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "386277015750",
+    "project_id": "pethome-fe019",
+    "storage_bucket": "pethome-fe019.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:386277015750:android:d935c1382a49ef55b717c7",
+        "android_client_info": {
+          "package_name": "com.application.pethome"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAJ8sHzarq7cxW5z-Uf_IdxMrJb58Ncy0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
