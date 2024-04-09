@@ -7,25 +7,16 @@
     tools:context=".MainFragment">
 
     <TextView
-        android:id="@+id/tvHelloWorld"
+        android:id="@+id/tvTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@id/btCerrarSesion"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="PetHome"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btCerrarSesion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Close session"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHelloWorld" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        />
 
     <ImageButton
         android:id="@+id/btAjustes"
@@ -40,10 +31,22 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/baseline_account_circle_24"
-
         app:layout_constraintEnd_toStartOf="@+id/btAjustes"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="10dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvMascotas"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitulo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         />
 
 

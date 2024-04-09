@@ -36,19 +36,29 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
-            android:singleLine="true"
-            android:hint="Usuario" />
+            android:hint="Usuario"
+            android:singleLine="true" />
 
         <EditText
             android:id="@+id/etContrasena"
-            android:layout_width="match_parent"
+            android:layout_width="219dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="60dp"
-            android:singleLine="true"
             android:hint="Contraseña"
             android:password="true"
-            />
+            android:singleLine="true"
+            tools:ignore="Deprecated" />
+
+        <CheckBox
+            android:id="@+id/chkMostrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="240dp"
+            android:layout_marginTop="60dp"
+            android:pointerIcon="arrow"
+            android:text="Mostrar" />
+
 
         <EditText
             android:id="@+id/etCorreo"
@@ -56,23 +66,24 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="110dp"
-            android:singleLine="true"
-            android:hint="Correo Electrónico" />
+            android:hint="Correo Electrónico"
+            android:singleLine="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="160dp"
-            android:textSize="17sp"
-            android:text="Sexo:" />
+            android:text="Sexo:"
+            android:textSize="17sp" />
+
         <Spinner
             android:id="@+id/spinnerSexo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="160dp"
+            android:layout_marginEnd="10dp"
             android:entries="@array/sexos" />
 
         <Button

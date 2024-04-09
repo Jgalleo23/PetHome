@@ -1,20 +1,18 @@
 package com.application.pethome.Inicio
 
-import android.content.Context
-import android.content.Intent
+
 import android.graphics.Paint
-import android.net.Uri
+
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.application.pethome.MainActivity
 import com.application.pethome.R
 import com.application.pethome.databinding.FragmentLoginBinding
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 
 class LoginFragment : Fragment() {
@@ -24,6 +22,13 @@ class LoginFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onStart() {
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
+        }
+        super.onStart()
     }
 
     override fun onCreateView(
@@ -38,6 +43,15 @@ class LoginFragment : Fragment() {
 
         binding.txtContOlvidada.setOnClickListener() {
             findNavController().navigate(R.id.action_loginFragment_to_forgotFragment)
+        }
+
+        binding.chkMostrar.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                binding.etContrasena.transformationMethod = null // Mostrar contraseña
+            } else {
+                binding.etContrasena.transformationMethod =
+                    PasswordTransformationMethod.getInstance() // Ocultar contraseña
+            }
         }
 
         binding.btnIniciarSesion.setOnClickListener() {
@@ -63,7 +77,8 @@ class LoginFragment : Fragment() {
         }
 
         binding.txtRegistro.paintFlags = binding.txtRegistro.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-        binding.txtContOlvidada.paintFlags = binding.txtContOlvidada.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        binding.txtContOlvidada.paintFlags =
+            binding.txtContOlvidada.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         return binding.root
     }
