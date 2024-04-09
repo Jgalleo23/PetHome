@@ -21,7 +21,7 @@ class MainFragment : Fragment() {
 
         binding.btPerfil.setOnClickListener {
             // Redirigir a la pantalla de perfil
-            findNavController().navigate(R.id.action_mainFragment_to_perfilActivity)
+            findNavController().navigate(R.id.action_mainFragment_to_perfilFragment)
         }
 
         binding.btAjustes.setOnClickListener {

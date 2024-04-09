@@ -37,8 +37,8 @@
             android:id="@+id/action_mainFragment_to_ajustesFragment"
             app:destination="@id/ajustesFragment" />
         <action
-            android:id="@+id/action_mainFragment_to_perfilActivity"
-            app:destination="@id/perfilActivity" />
+            android:id="@+id/action_mainFragment_to_perfilFragment"
+            app:destination="@id/perfilFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotFragment"
@@ -58,9 +58,9 @@
             android:id="@+id/action_ajustesFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
-    <activity
-        android:id="@+id/perfilActivity"
-        android:name="com.application.pethome.Perfil.PerfilActivity"
-        android:label="activity_perfil"
-        tools:layout="@layout/activity_perfil" />
+    <fragment
+        android:id="@+id/perfilFragment"
+        android:name="com.application.pethome.Perfil.PerfilFragment"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
 </navigation>
