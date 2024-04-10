@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.application.pethome.databinding.FragmentPerfilBinding
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 
 class PerfilFragment : Fragment() {
     private var _binding: FragmentPerfilBinding? = null
@@ -21,12 +24,16 @@ class PerfilFragment : Fragment() {
     ): View? {
         _binding = FragmentPerfilBinding.inflate(inflater, container, false)
 
-        FirebaseFirestore.getInstance().collection("usuarios").document(Firebase.auth.currentUser!!.uid).get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    binding.tvNombre.text = document.get("nombre").toString()
+        FirebaseAuth.getInstance().currentUser?.uid?.let {
+            FirebaseFirestore.getInstance().collection("users").document(it).get().addOnSuccessListener {
+                if (it.exists()) {
+                    binding.txtUsuario.text = it.getString("nombre")
+                    binding.tvNombreUsuario.text = it.getString("nombre")
+                    binding.tvDescripcion.text = it.getString("descripcion")
+                    Picasso.get().load(it.getString("imagen")).into(binding.imageView2)
                 }
             }
+        }
 
         return binding.root
     }

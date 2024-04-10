@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:contentDescription="LOGO"
+        android:contentDescription="@string/logo"
         android:scaleType="centerCrop"
         android:src="@drawable/logo"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
@@ -37,7 +37,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
             android:singleLine="true"
-            android:hint="Correo Electrónico" />
+            android:hint="@string/correo" />
 
         <EditText
             android:id="@+id/etContrasena"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="60dp"
-            android:hint="Contraseña"
+            android:hint="@string/contrasena"
             android:password="true"
             android:singleLine="true" />
 
@@ -53,10 +53,10 @@
             android:id="@+id/chkMostrar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="240dp"
+            android:layout_marginStart="235dp"
             android:layout_marginTop="60dp"
             android:pointerIcon="arrow"
-            android:text="Mostrar" />
+            android:text="@string/mostrar" />
 
         <Button
             android:id="@+id/btnIniciarSesion"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="110dp"
-            android:text="Iniciar Sesión" />
+            android:text="@string/iniciar_sesion" />
 
         <TextView
             android:id="@+id/txtRegistro"
@@ -76,7 +76,8 @@
             android:linksClickable="true"
             android:text="@string/registrate"
             android:textAlignment="center"
-            android:textStyle="" />
+            android:textStyle=""
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/txtContOlvidada"
@@ -88,7 +89,8 @@
             android:linksClickable="true"
             android:text="@string/contOlvidada"
             android:textAlignment="center"
-            android:textStyle="" />
+            android:textStyle=""
+            android:focusable="true" />
 
 
     </androidx.cardview.widget.CardView>

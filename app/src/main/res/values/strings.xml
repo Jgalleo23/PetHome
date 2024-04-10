@@ -5,6 +5,22 @@
     <string name="registrate">Registrate</string>
     <string name="iniciaSesion">Inicia sesión</string>
     <string name="contOlvidada">¿Contraseña olvidada?</string>
+    <string name="iniciar_sesion">Iniciar Sesión</string>
+    <string name="contrasena">Contraseña</string>
+    <string name="correo">Correo Electrónico</string>
+    <string name="logo">LOGO</string>
+    <string name="mostrar">Mostrar</string>
+    <string name="nombre_de_usuario">Nombre de Usuario</string>
+    <string name="sexo">Sexo:</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="seguidores">Seguidores</string>
+    <string name="descripcion">Descripción</string>
+    <string name="nombre">Nombre</string>
+    <string name="seguidos">Seguidos</string>
+    <string name="publicaciones">Publicaciones</string>
+    <string name="cero">0</string>
+    <string name="perfil">Perfil</string>
+    <string name="imagen_perfil">Selecciona tu imagen de perfil</string>
     <string-array name="sexos">
         <item>Hombre</item>
         <item>Mujer</item>

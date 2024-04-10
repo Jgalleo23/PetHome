@@ -11,15 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:dividerColor="?android:attr/textColorSecondary"
-        app:layout_constraintTop_toBottomOf="@id/textView"
+        app:layout_constraintTop_toBottomOf="@id/txtUsuario"
         android:layout_marginTop="10dp"
         />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="USUARIO"
+        android:text="@string/nombre_de_usuario"
         app:layout_constraintBottom_toTopOf="@+id/materialDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,40 +28,100 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="114dp"
-        android:layout_height="106dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:src="@drawable/baseline_admin_panel_settings_24"
+        android:src="@drawable/account_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/materialDivider" />
 
     <TextView
-        android:id="@+id/tvNombre"
+        android:id="@+id/tvNombreUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+        android:text="@string/nombre"
+        app:layout_constraintBottom_toTopOf="@+id/tvDescripcion"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:id="@+id/tvDescripcion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Descripcion"
+        android:text="@string/descripcion"
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreUsuario"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintBottom_toTopOf="@+id/materialDividerMedium"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/tvSeguidoresCuenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cero"
         app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvSeguidores"
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@id/tvSeguidores"/>
+
+    <TextView
+        android:id="@+id/tvSeguidosCuenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cero"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/tvSeguidos"
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@id/tvSeguidos"/>
+
+    <TextView
+        android:id="@+id/tvPublicacionesCuenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cero"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/tvPublicaciones"
+        app:layout_constraintTop_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@id/tvPublicaciones"/>
+
+    <TextView
+        android:id="@+id/tvSeguidores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/seguidores"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toBottomOf="@+id/tvNombre" />
+        app:layout_constraintTop_toBottomOf="@+id/tvSeguidoresCuenta"
+        app:layout_constraintEnd_toStartOf="@id/tvSeguidos"/>
+
+    <TextView
+        android:id="@+id/tvSeguidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/seguidos"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/tvSeguidores"
+        app:layout_constraintTop_toBottomOf="@+id/tvSeguidosCuenta"
+        app:layout_constraintEnd_toStartOf="@id/tvPublicaciones"/>
+
+    <TextView
+        android:id="@+id/tvPublicaciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/publicaciones"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/tvSeguidos"
+        app:layout_constraintTop_toBottomOf="@+id/tvPublicacionesCuenta"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/materialDividerMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:dividerColor="?android:attr/textColorSecondary"
-        app:layout_constraintTop_toBottomOf="@id/imageView2"
+        app:layout_constraintTop_toBottomOf="@id/tvDescripcion"
         android:layout_marginTop="30dp"
         />
 
