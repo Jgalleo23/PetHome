@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.application.pethome"
-        minSdk = 21
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.car.ui.lib)
     //Fragmentos
     val fragment_version = "1.5.5"
 

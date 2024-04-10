@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_mainFragment_to_perfilFragment"
             app:destination="@id/perfilFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_buscadorFragment"
+            app:destination="@id/buscadorFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotFragment"
@@ -63,4 +66,9 @@
         android:name="com.application.pethome.Perfil.PerfilFragment"
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil" />
+    <fragment
+        android:id="@+id/buscadorFragment"
+        android:name="com.application.pethome.Buscador.BuscadorFragment"
+        android:label="fragment_buscador"
+        tools:layout="@layout/fragment_buscador" />
 </navigation>

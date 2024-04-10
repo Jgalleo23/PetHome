@@ -28,6 +28,11 @@ class MainFragment : Fragment() {
             // Redirigir a la pantalla de ajustes
             findNavController().navigate(R.id.action_mainFragment_to_ajustesFragment)
         }
+
+        binding.btBuscar.setOnClickListener {
+            // Redirigir a la pantalla de buscador
+            findNavController().navigate(R.id.action_mainFragment_to_buscadorFragment)
+        }
         return binding.root
     }
 
