@@ -73,9 +73,12 @@ class RegisterFragment : Fragment() {
         }
 
         binding.btnRegistrar.setOnClickListener {
-            if (binding.etCorreo.text.toString()
-                    .isEmpty() || binding.etContrasena.text.isEmpty() || binding.etDescripcion.text.toString()
-                    .isEmpty()
+            if (binding.etCorreo.text.toString().isEmpty() ||
+                binding.etContrasena.text.isEmpty() ||
+                binding.etDescripcion.text.toString().isEmpty() ||
+                binding.etUsuario.text.toString().isEmpty() ||
+                spinnerSexo.selectedItem == null ||
+                binding.ivPerfil.drawable == null
             ) {
                 Toast.makeText(context, "Por favor, rellene todos los campos", Toast.LENGTH_SHORT)
                     .show()

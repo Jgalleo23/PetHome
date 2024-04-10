@@ -21,6 +21,8 @@ class BuscadorFragment : Fragment() {
 
     private lateinit var userAdapter: UserAdapter
 
+    private var users: List<User> = listOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,8 +39,6 @@ class BuscadorFragment : Fragment() {
                 return false
             }
 
-            private var users: List<User> = listOf()
-
             override fun onQueryTextChange(newText: String?): Boolean {
                 val filteredList = users.filter { user: User ->
                     user.nombre.contains(newText ?: "", ignoreCase = true)
@@ -53,14 +53,13 @@ class BuscadorFragment : Fragment() {
 
     private fun getUsers() {
         val db = FirebaseFirestore.getInstance()
-        val users = mutableListOf<User>()
 
         db.collection("users")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
                     val user = document.toObject(User::class.java)
-                    users.add(user)
+                    users = users + user
                 }
                 userAdapter.filterList(users)
             }
