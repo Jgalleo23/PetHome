@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_mainFragment_to_buscadorFragment"
             app:destination="@id/buscadorFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_publicacionFragment"
+            app:destination="@id/publicacionFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotFragment"
@@ -71,4 +74,12 @@
         android:name="com.application.pethome.Buscador.BuscadorFragment"
         android:label="fragment_buscador"
         tools:layout="@layout/fragment_buscador" />
+    <fragment
+        android:id="@+id/publicacionFragment"
+        android:name="com.application.pethome.PublicacionFragment"
+        android:label="PublicacionFragment" >
+        <action
+            android:id="@+id/action_publicacionFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

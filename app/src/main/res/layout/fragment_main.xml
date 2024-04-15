@@ -11,38 +11,38 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="PetHome"
-        android:textSize="24sp"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         />
 
-    <ImageButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btAjustes"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/settings_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/settings_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="10dp"/>
 
-    <ImageButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btBuscar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/find_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/find_icon"
         app:layout_constraintEnd_toStartOf="@+id/btAjustes"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="50dp"
+        android:layout_marginEnd="70dp"
         android:layout_marginTop="10dp"
         />
 
-    <ImageButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btPerfil"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/account_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/account_icon"
         app:layout_constraintEnd_toStartOf="@+id/btAjustes"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="5dp"
@@ -61,6 +61,17 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/btAnadir"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:src="@android:drawable/ic_input_add"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

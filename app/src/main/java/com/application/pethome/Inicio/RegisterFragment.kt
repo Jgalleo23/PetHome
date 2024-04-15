@@ -131,10 +131,10 @@ class RegisterFragment : Fragment() {
                                                 val user =
                                                     FirebaseAuth.getInstance().currentUser?.uid
                                                 val correo = binding.etCorreo.text.toString().trim()
-                                                // ... other code ...
 
                                                 if (user != null) {
-                                                    db.collection("users").document(user).set(userData)
+                                                    db.collection("users").document(user)
+                                                        .set(userData)
                                                         .addOnCompleteListener {
                                                             progressDialog.dismiss()
                                                             if (it.isSuccessful) {

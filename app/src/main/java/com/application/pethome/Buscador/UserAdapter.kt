@@ -1,9 +1,9 @@
 package com.application.pethome.Buscador
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.application.pethome.R
@@ -13,7 +13,6 @@ class UserAdapter(private var users: List<User>) : RecyclerView.Adapter<UserAdap
 
     inner class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvUsuario: TextView = view.findViewById(R.id.tvUsuario)
-        val ivFotoPerfil: ImageView = view.findViewById(R.id.ivFotoPerfil)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -29,6 +28,7 @@ class UserAdapter(private var users: List<User>) : RecyclerView.Adapter<UserAdap
 
     override fun getItemCount() = users.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun filterList(filteredList: List<User>) {
         users = filteredList
         notifyDataSetChanged()

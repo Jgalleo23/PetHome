@@ -14,7 +14,7 @@ android {
         minSdk = 28
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -45,7 +45,7 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.car.ui.lib)
     //Fragmentos
-    val fragment_version = "1.5.5"
+    val fragment_version = "1.6.2"
 
     implementation("androidx.fragment:fragment:$fragment_version")
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
@@ -66,7 +66,7 @@ dependencies {
     //Datastore
     implementation("androidx.datastore:datastore:1.0.0")
     implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
     //Picasso
     implementation("com.squareup.picasso:picasso:2.71828")
@@ -79,10 +79,10 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     //Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
     //Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
 
     //Firebase Auth
@@ -97,7 +97,7 @@ dependencies {
     //Firebase Realtime Database
     implementation("com.google.firebase:firebase-database-ktx")
 
-    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

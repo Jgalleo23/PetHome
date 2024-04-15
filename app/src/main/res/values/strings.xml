@@ -21,6 +21,7 @@
     <string name="cero">0</string>
     <string name="perfil">Perfil</string>
     <string name="imagen_perfil">Selecciona tu imagen de perfil</string>
+    <string name="aceptar">Aceptar</string>
     <string-array name="sexos">
         <item>Hombre</item>
         <item>Mujer</item>
