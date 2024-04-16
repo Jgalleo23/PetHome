@@ -56,12 +56,10 @@ class MainFragment : Fragment() {
         return binding.root
     }
 
-private fun getPublications() {
-    val db = FirebaseFirestore.getInstance()
-    val userId = FirebaseAuth.getInstance().currentUser?.uid
+    private fun getPublications() {
+        val db = FirebaseFirestore.getInstance()
 
-    if (userId != null) {
-        db.collection("users").document(userId).collection("publications")
+        db.collectionGroup("publications")
             .get()
             .addOnSuccessListener { documents ->
                 val publications = mutableListOf<Publication>()
@@ -75,6 +73,5 @@ private fun getPublications() {
                 Log.w(ContentValues.TAG, "Error getting documents: ", exception)
             }
     }
-}
 
 }

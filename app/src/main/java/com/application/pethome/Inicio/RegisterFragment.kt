@@ -1,7 +1,6 @@
 package com.application.pethome.Inicio
 
 import android.app.Activity
-import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.Paint
@@ -13,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.ProgressBar
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -34,8 +32,6 @@ class RegisterFragment : Fragment() {
 
     private lateinit var db: FirebaseFirestore
 
-    private lateinit var progressDialog: ProgressDialog
-
     private val PICK_IMAGE_REQUEST = 71
 
     override fun onCreateView(
@@ -49,9 +45,6 @@ class RegisterFragment : Fragment() {
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerSexo.adapter = adapter
-
-        progressDialog = ProgressDialog(context)
-        progressDialog.setMessage("Registrando...")
 
         binding.ivPerfil.setOnClickListener {
             openImageChooser()
@@ -81,6 +74,9 @@ class RegisterFragment : Fragment() {
         }
 
         binding.btnRegistrar.setOnClickListener {
+            // Mostrar el ProgressBar
+            binding.progressBar.visibility = View.VISIBLE
+
             if (binding.etCorreo.text.toString().isEmpty() ||
                 binding.etContrasena.text.isEmpty() ||
                 binding.etDescripcion.text.toString().isEmpty() ||
@@ -126,7 +122,6 @@ class RegisterFragment : Fragment() {
                                 if (user != null) {
                                     db.collection("users").document(user).set(userData)
                                         .addOnCompleteListener {
-                                            progressDialog.dismiss()
                                             if (it.isSuccessful) {
                                                 val user =
                                                     FirebaseAuth.getInstance().currentUser?.uid
@@ -136,13 +131,14 @@ class RegisterFragment : Fragment() {
                                                     db.collection("users").document(user)
                                                         .set(userData)
                                                         .addOnCompleteListener {
-                                                            progressDialog.dismiss()
                                                             if (it.isSuccessful) {
                                                                 Toast.makeText(
                                                                     context,
                                                                     "Usuario registrado correctamente",
                                                                     Toast.LENGTH_SHORT
                                                                 ).show()
+                                                                binding.progressBar
+                                                                    ?.visibility ?: View.GONE
                                                                 findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                                                             } else {
                                                                 binding.etCorreo.error =

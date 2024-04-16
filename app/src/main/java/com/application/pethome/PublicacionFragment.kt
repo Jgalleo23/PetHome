@@ -16,8 +16,8 @@ import com.application.pethome.databinding.FragmentPublicacionBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
+import java.util.UUID
 
 class PublicacionFragment : Fragment() {
     private var _binding: FragmentPublicacionBinding? = null
@@ -31,7 +31,7 @@ class PublicacionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentPublicacionBinding.inflate(inflater, container, false)
         db = FirebaseFirestore.getInstance()
 
@@ -55,14 +55,19 @@ class PublicacionFragment : Fragment() {
                             }
                         }
                 }
+                // Generar un UUID único para la imagen
+                val uniqueID = UUID.randomUUID().toString()
+
                 // Subir la imagen a Firebase Storage y obtener la URL
                 val storageRef =
-                    FirebaseStorage.getInstance().reference.child("publications_images")
-                        .child("$user.jpg")
+                    FirebaseStorage.getInstance().reference.child("publications_images/$user/$uniqueID.jpg")
                 val bitmap = (binding.ivFoto.drawable as BitmapDrawable).bitmap
                 val baos = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
                 val data = baos.toByteArray()
+
+                // Mostrar el ProgressBar
+                binding.progressBar.visibility = View.VISIBLE
 
                 val uploadTask = storageRef.putBytes(data)
                 uploadTask.addOnSuccessListener {
@@ -93,6 +98,8 @@ class PublicacionFragment : Fragment() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
+                                    // Ocultar el ProgressBar
+                                    binding.progressBar.visibility = View.GONE
                                 }
                         }
                     }
