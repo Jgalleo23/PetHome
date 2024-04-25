@@ -23,7 +23,7 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
 
         init {
             view.setOnClickListener {
-                val position = adapterPosition
+                val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val user = users[position]
                     userSelected(user)
@@ -40,24 +40,53 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val user = users[position]
         holder.tvUsuario.text = user.nombre
+
+        // Get the current user's ID
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
+
+        // Create a reference to the Firestore database
+        val db = FirebaseFirestore.getInstance()
+
+        /**if (currentUserId != null) {
+        // Check if the user is already followed
+        db.collection("users").document(currentUserId).collection("seguidos")
+        .get()
+        .addOnSuccessListener { result ->
+        for (document in result) {
+        if (document.data["uid"] == user.uid) {
+        holder.btSeguir.isEnabled = false
+        }
+        }
+        }
+        }**/
+
+        if (currentUserId != null) {
+            // Check if the user is already followed
+            db.collection("users").document(currentUserId).collection("seguidos")
+                .whereEqualTo("uid", user.uid)
+                .get()
+                .addOnSuccessListener { result ->
+                    if (!result.isEmpty) {
+                        // User is already followed, disable the button
+                        holder.btSeguir.isEnabled = false
+                        holder.btSeguir.setText("Seguido")
+                    }
+                }
+        }
+
         holder.btSeguir.setOnClickListener {
-            // Get the current user's ID
-            val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
-
-            // Create a reference to the Firestore database
-            val db = FirebaseFirestore.getInstance()
-
             // Create a new document in the "seguidos" collection of the current user
             val followedUser = hashMapOf(
                 "nombre" to user.nombre,
                 "uid" to user.uid
             )
 
-            if (currentUserId != null) {
+            if (currentUserId != null && holder.btSeguir.isEnabled) {
                 db.collection("users").document(currentUserId).collection("seguidos")
                     .add(followedUser)
                     .addOnSuccessListener { documentReference ->
                         Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                        holder.btSeguir.isEnabled = false
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)

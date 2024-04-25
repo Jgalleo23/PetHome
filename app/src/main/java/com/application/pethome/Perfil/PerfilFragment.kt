@@ -38,7 +38,8 @@ class PerfilFragment : Fragment() {
         binding.rvMascotasUsuario.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         getNumberOfPosts()
-        getMascotax()
+        getNumberOfFollowed()
+        getMascotas()
 
         FirebaseAuth.getInstance().currentUser?.uid?.let {
             FirebaseFirestore.getInstance().collection("users").document(it).get().addOnSuccessListener {
@@ -76,6 +77,16 @@ class PerfilFragment : Fragment() {
         }
     }
 
+    private fun getNumberOfFollowed(){
+        val db = FirebaseFirestore.getInstance()
+        val query = db.collection("users").document(FirebaseAuth.getInstance().currentUser?.uid.toString())
+            .collection("seguidos")
+
+        query.count().get(AggregateSource.SERVER).addOnSuccessListener { task ->
+            binding.tvSeguidosCuenta.text = "${task.count}"
+        }
+    }
+
     private fun getMascotas() {
         FirebaseAuth.getInstance().currentUser?.uid?.let { userId ->
             FirebaseFirestore.getInstance().collection("users").document(userId).collection("mascotas")
@@ -87,21 +98,4 @@ class PerfilFragment : Fragment() {
         }
     }
 
-    private fun getMascotax() {
-        val db = FirebaseFirestore.getInstance()
-
-        db.collectionGroup("mascotas")
-            .get()
-            .addOnSuccessListener { documents ->
-                val mascotas = mutableListOf<Mascota>()
-                for (document in documents) {
-                    val mascota = document.toObject(Mascota::class.java)
-                    mascotas.add(mascota)
-                }
-                mascotaAdapter.updateMascotas(mascotas)
-            }
-            .addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
-            }
-    }
 }

@@ -11,6 +11,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.application.pethome.User
 import com.application.pethome.databinding.FragmentBuscadorBinding
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class BuscadorFragment : Fragment() {
@@ -54,6 +55,7 @@ class BuscadorFragment : Fragment() {
 
     private fun getUsers() {
         val db = FirebaseFirestore.getInstance()
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
 
         // Limpiar la lista de usuarios antes de agregar nuevos usuarios
         users = listOf()
@@ -62,8 +64,11 @@ class BuscadorFragment : Fragment() {
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    val user = document.toObject(User::class.java)
-                    users = users + user
+                    // Exclude the current user from the list
+                    if (document.id != currentUserId) {
+                        val user = document.toObject(User::class.java)
+                        users = users + user
+                    }
                 }
                 userAdapter.filterList(users)
             }

@@ -13,6 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
+import com.application.pethome.R
 import com.application.pethome.databinding.FragmentRegMascotaBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,13 +45,16 @@ class RegMascotaFragment : Fragment() {
 
 
         binding.btRegistrarMascota.setOnClickListener {
+            binding.progressBar.visibility = View.VISIBLE
+
             val userId = auth.currentUser?.uid
             if (userId != null) {
                 val nombreMascota = binding.etNombreMascota.text.toString()
                 val edad = binding.etUsuario.text.toString().toInt()
                 val descripcion = binding.etDescripcion.text.toString()
                 val raza = binding.spinnerRaza.selectedItem.toString()
-                val id = db.collection("users").document(userId).collection("mascotas").document().id
+                val id =
+                    db.collection("users").document(userId).collection("mascotas").document().id
 
                 // Subir la imagen a Firebase Storage y obtener la URL
                 val storageRef =
@@ -85,14 +90,26 @@ class RegMascotaFragment : Fragment() {
                                         TAG,
                                         "DocumentSnapshot added with ID: ${documentReference.id}"
                                     )
+                                    // Hide progress bar and navigate to profile
+                                    binding.progressBar.visibility = View.GONE
+                                    findNavController().navigate(R.id.action_regMascotaFragment_to_perfilFragment)
+                                    Toast.makeText(
+                                        context,
+                                        "Mascota registrada correctamente",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                                 .addOnFailureListener { e ->
                                     Log.w(TAG, "Error adding document", e)
+                                    // Hide progress bar on failure
+                                    binding.progressBar.visibility = View.GONE
                                 }
                         }
+                    }.addOnFailureListener {
+                        // Hide progress bar on failure
+                        binding.progressBar.visibility = View.GONE
                     }
                 } else {
-
                     Toast.makeText(
                         context,
                         "Por favor, rellene todos los campos",

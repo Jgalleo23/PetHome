@@ -103,5 +103,9 @@
         android:id="@+id/regMascotaFragment"
         android:name="com.application.pethome.Perfil.RegMascotaFragment"
         android:label="fragment_reg_mascota"
-        tools:layout="@layout/fragment_reg_mascota" />
+        tools:layout="@layout/fragment_reg_mascota" >
+        <action
+            android:id="@+id/action_regMascotaFragment_to_perfilFragment"
+            app:destination="@id/perfilFragment" />
+    </fragment>
 </navigation>
