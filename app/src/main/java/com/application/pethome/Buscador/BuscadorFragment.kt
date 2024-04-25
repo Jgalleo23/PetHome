@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.application.pethome.R
 import com.application.pethome.User
 import com.application.pethome.databinding.FragmentBuscadorBinding
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,9 +25,11 @@ class BuscadorFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentBuscadorBinding.inflate(inflater, container, false)
-        userAdapter = UserAdapter(listOf())
+        userAdapter = UserAdapter(listOf()) { user ->
+
+        }
         binding.rvUsuarios.adapter = userAdapter
         binding.rvUsuarios.layoutManager = LinearLayoutManager(context)
 
@@ -53,6 +54,9 @@ class BuscadorFragment : Fragment() {
 
     private fun getUsers() {
         val db = FirebaseFirestore.getInstance()
+
+        // Limpiar la lista de usuarios antes de agregar nuevos usuarios
+        users = listOf()
 
         db.collection("users")
             .get()

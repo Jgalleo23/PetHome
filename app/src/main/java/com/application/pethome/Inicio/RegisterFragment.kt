@@ -113,6 +113,7 @@ class RegisterFragment : Fragment() {
                                 val imageUrl = uri.toString()
 
                                 val userData = hashMapOf(
+                                    "uid" to user,
                                     "nombre" to nombre,
                                     "correo" to correo,
                                     "sexo" to sexo,
@@ -125,7 +126,6 @@ class RegisterFragment : Fragment() {
                                             if (it.isSuccessful) {
                                                 val user =
                                                     FirebaseAuth.getInstance().currentUser?.uid
-                                                val correo = binding.etCorreo.text.toString().trim()
 
                                                 if (user != null) {
                                                     db.collection("users").document(user)

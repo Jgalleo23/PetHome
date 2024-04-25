@@ -13,8 +13,8 @@ android {
         applicationId = "com.application.pethome"
         minSdk = 28
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.1"
+        versionCode = 2
+        versionName = "0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -62,6 +62,7 @@ dependencies {
 
     //Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
+
 
     //Datastore
     implementation("androidx.datastore:datastore:1.0.0")

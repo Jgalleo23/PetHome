@@ -8,7 +8,7 @@
         android:id="@+id/loginFragment"
         android:name="com.application.pethome.Inicio.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
@@ -23,7 +23,7 @@
         android:id="@+id/registerFragment"
         android:name="com.application.pethome.Inicio.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -32,7 +32,7 @@
         android:id="@+id/mainFragment"
         android:name="com.application.pethome.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_ajustesFragment"
             app:destination="@id/ajustesFragment" />
@@ -50,7 +50,7 @@
         android:id="@+id/forgotFragment"
         android:name="com.application.pethome.Inicio.ForgotFragment"
         android:label="fragment_forgot"
-        tools:layout="@layout/fragment_forgot" >
+        tools:layout="@layout/fragment_forgot">
         <action
             android:id="@+id/action_forgotFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -59,7 +59,7 @@
         android:id="@+id/ajustesFragment"
         android:name="com.application.pethome.Ajustes.AjustesFragment"
         android:label="fragment_ajustes"
-        tools:layout="@layout/fragment_ajustes" >
+        tools:layout="@layout/fragment_ajustes">
         <action
             android:id="@+id/action_ajustesFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -68,18 +68,40 @@
         android:id="@+id/perfilFragment"
         android:name="com.application.pethome.Perfil.PerfilFragment"
         android:label="fragment_perfil"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_perfil" >
+        <action
+            android:id="@+id/action_perfilFragment_to_regMascotaFragment"
+            app:destination="@id/regMascotaFragment" />
+    </fragment>
     <fragment
         android:id="@+id/buscadorFragment"
-        android:name="com.application.pethome.Buscador.BuscadorFragment"
-        android:label="fragment_buscador"
-        tools:layout="@layout/fragment_buscador" />
+        android:name="com.application.pethome.Buscador.BuscadorFragment">
+        <action
+            android:id="@+id/action_buscadorFragment_to_conversacionFragment"
+            app:destination="@id/conversacionFragment">
+            <argument
+                android:name="userId"
+                app:argType="string" />
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/publicacionFragment"
         android:name="com.application.pethome.PublicacionFragment"
-        android:label="PublicacionFragment" >
+        android:label="PublicacionFragment">
         <action
             android:id="@+id/action_publicacionFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
+<fragment
+    android:id="@+id/conversacionFragment"
+    android:name="com.application.pethome.Mensajeria.ConversacionFragment">
+    <argument
+        android:name="usuarioChat"
+        app:argType="string" />
+</fragment>
+    <fragment
+        android:id="@+id/regMascotaFragment"
+        android:name="com.application.pethome.Perfil.RegMascotaFragment"
+        android:label="fragment_reg_mascota"
+        tools:layout="@layout/fragment_reg_mascota" />
 </navigation>

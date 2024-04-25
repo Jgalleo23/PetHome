@@ -7,11 +7,13 @@
 
     <LinearLayout
         android:id="@+id/finderUsersLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
             android:id="@+id/ivFotoPerfil"
@@ -29,5 +31,17 @@
             android:textSize="18sp" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btSeguir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/seguir"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

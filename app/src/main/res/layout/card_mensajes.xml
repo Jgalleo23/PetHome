@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="30sp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+<!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5sp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="48sp"
+            android:layout_height="48sp"
+            android:padding="5sp"
+            android:src="@drawable/account_icon" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvNombreUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Nombre de Usuario"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/tvMensaje"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Esto es un mensaje"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+-->
+</androidx.cardview.widget.CardView>

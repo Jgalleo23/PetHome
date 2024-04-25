@@ -125,4 +125,32 @@
         android:layout_marginTop="30dp"
         />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvMascotasUsuario"
+        app:layout_constraintTop_toBottomOf="@+id/materialDividerMedium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="6dp"/>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDividerBottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dividerColor="?android:attr/textColorSecondary"
+        app:layout_constraintTop_toBottomOf="@id/rvMascotasUsuario"
+        android:layout_marginTop="20dp"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabSubirMascota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/car_ui_icon_add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
