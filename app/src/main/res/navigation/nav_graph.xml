@@ -68,7 +68,7 @@
         android:id="@+id/perfilFragment"
         android:name="com.application.pethome.Perfil.PerfilFragment"
         android:label="fragment_perfil"
-        tools:layout="@layout/fragment_perfil" >
+        tools:layout="@layout/fragment_perfil">
         <action
             android:id="@+id/action_perfilFragment_to_regMascotaFragment"
             app:destination="@id/regMascotaFragment" />
@@ -77,11 +77,8 @@
         android:id="@+id/buscadorFragment"
         android:name="com.application.pethome.Buscador.BuscadorFragment">
         <action
-            android:id="@+id/action_buscadorFragment_to_conversacionFragment"
-            app:destination="@id/conversacionFragment">
-            <argument
-                android:name="userId"
-                app:argType="string" />
+            android:id="@+id/action_buscadorFragment_to_PUBuscadorFragment"
+            app:destination="@id/PUBuscadorFragment">
         </action>
     </fragment>
     <fragment
@@ -92,20 +89,18 @@
             android:id="@+id/action_publicacionFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
-<fragment
-    android:id="@+id/conversacionFragment"
-    android:name="com.application.pethome.Mensajeria.ConversacionFragment">
-    <argument
-        android:name="usuarioChat"
-        app:argType="string" />
-</fragment>
     <fragment
         android:id="@+id/regMascotaFragment"
         android:name="com.application.pethome.Perfil.RegMascotaFragment"
         android:label="fragment_reg_mascota"
-        tools:layout="@layout/fragment_reg_mascota" >
+        tools:layout="@layout/fragment_reg_mascota">
         <action
             android:id="@+id/action_regMascotaFragment_to_perfilFragment"
             app:destination="@id/perfilFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/PUBuscadorFragment"
+        android:name="com.application.pethome.Buscador.PUBuscadorFragment"
+        android:label="fragment_p_u_buscador"
+        tools:layout="@layout/fragment_p_u_buscador" />
 </navigation>

@@ -2,16 +2,22 @@ package com.application.pethome.Buscador
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.application.pethome.Perfil.PerfilFragment
 import com.application.pethome.R
 import com.application.pethome.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class UserAdapter(private var users: List<User>, private val userSelected: (User) -> Unit) :
@@ -20,6 +26,7 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
     inner class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvUsuario: TextView = view.findViewById(R.id.tvUsuario)
         val btSeguir: Button = view.findViewById(R.id.btSeguir)
+        val ivFotoPerfil: ImageView = view.findViewById(R.id.ivFotoPerfil)
 
         init {
             view.setOnClickListener {
@@ -47,19 +54,6 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
         // Create a reference to the Firestore database
         val db = FirebaseFirestore.getInstance()
 
-        /**if (currentUserId != null) {
-        // Check if the user is already followed
-        db.collection("users").document(currentUserId).collection("seguidos")
-        .get()
-        .addOnSuccessListener { result ->
-        for (document in result) {
-        if (document.data["uid"] == user.uid) {
-        holder.btSeguir.isEnabled = false
-        }
-        }
-        }
-        }**/
-
         if (currentUserId != null) {
             // Check if the user is already followed
             db.collection("users").document(currentUserId).collection("seguidos")
@@ -72,6 +66,10 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
                         holder.btSeguir.setText("Seguido")
                     }
                 }
+        }
+
+        holder.ivFotoPerfil.setOnClickListener {
+
         }
 
         holder.btSeguir.setOnClickListener {
@@ -87,6 +85,27 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
                     .addOnSuccessListener { documentReference ->
                         Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
                         holder.btSeguir.isEnabled = false
+
+                        // Create the "seguidores" collection if it doesn't exist
+                        db.collection("users").document(user.uid).collection("seguidores")
+                            .document(currentUserId)
+                            .set(hashMapOf<String, Any>())
+                            .addOnSuccessListener {
+                                Log.d(TAG, "DocumentSnapshot successfully written!")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error writing document", e)
+                            }
+
+                        // Increment the follower count of the followed user
+                        db.collection("users").document(user.uid)
+                            .update("seguidores", FieldValue.increment(1))
+                            .addOnSuccessListener {
+                                Log.d(TAG, "DocumentSnapshot successfully updated!")
+                            }
+                            .addOnFailureListener { e ->
+                                Log.w(TAG, "Error updating document", e)
+                            }
                     }
                     .addOnFailureListener { e ->
                         Log.w(TAG, "Error adding document", e)

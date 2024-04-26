@@ -43,7 +43,7 @@ class BuscadorFragment : Fragment() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 val filteredList = users.filter { user: User ->
-                    user.nombre.contains(newText ?: "", ignoreCase = true)
+                    user.nombre?.contains(newText ?: "", ignoreCase = true) ?: false
                 }
                 userAdapter.filterList(filteredList)
                 return false

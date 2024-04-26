@@ -1,7 +1,10 @@
 package com.application.pethome
 
-data class User(
+
+class User(
     var uid: String = "",
     val nombre: String = "",
-    val imagen: String = ""
+    val imagen: String = "",
+    val descripcion: String = "",
 )
+

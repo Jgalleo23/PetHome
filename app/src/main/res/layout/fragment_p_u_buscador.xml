@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Buscador.PUBuscadorFragment">
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDividerBUSC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dividerColor="?android:attr/textColorSecondary"
+        app:layout_constraintTop_toBottomOf="@id/txtUsuarioBUSC"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/txtUsuarioBUSC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nombre_de_usuario"
+        app:layout_constraintBottom_toTopOf="@+id/materialDividerBUSC"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"/>
+
+    <ImageView
+        android:id="@+id/imageView2BUSC"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/account_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/materialDividerBUSC" />
+
+    <TextView
+        android:id="@+id/tvNombreUsuarioBUSC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/nombre"
+        app:layout_constraintBottom_toTopOf="@+id/tvDescripcionBUSC"
+        app:layout_constraintStart_toStartOf="@+id/imageView2BUSC"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2BUSC"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tvDescripcionBUSC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/descripcion"
+        app:layout_constraintTop_toBottomOf="@+id/tvNombreUsuarioBUSC"
+        app:layout_constraintStart_toStartOf="@+id/imageView2BUSC"
+        app:layout_constraintBottom_toTopOf="@+id/materialDividerMedium"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        android:id="@+id/tvSeguidoresCuentaBUSC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cero"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2BUSC"
+        app:layout_constraintStart_toStartOf="@+id/tvSeguidoresBUSC"
+        app:layout_constraintTop_toTopOf="@+id/imageView2BUSC"
+        app:layout_constraintEnd_toEndOf="@id/tvSeguidoresBUSC"/>
+
+    <TextView
+        android:id="@+id/tvSeguidosCuentaBUSC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cero"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2BUSC"
+        app:layout_constraintStart_toStartOf="@+id/tvSeguidosBUSC"
+        app:layout_constraintTop_toTopOf="@+id/imageView2BUSC"
+        app:layout_constraintEnd_toEndOf="@id/tvSeguidosBUSC"/>
+
+    <TextView
+        android:id="@+id/tvPublicacionesCuentaBUSC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cero"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2BUSC"
+        app:layout_constraintStart_toStartOf="@+id/tvPublicacionesBUSC"
+        app:layout_constraintTop_toTopOf="@+id/imageView2BUSC"
+        app:layout_constraintEnd_toEndOf="@id/tvPublicacionesBUSC"/>
+
+    <TextView
+        android:id="@+id/tvSeguidoresBUSC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/seguidores"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2BUSC"
+        app:layout_constraintStart_toEndOf="@+id/imageView2BUSC"
+        app:layout_constraintTop_toBottomOf="@+id/tvSeguidoresCuentaBUSC"
+        app:layout_constraintEnd_toStartOf="@id/tvSeguidosBUSC"/>
+
+    <TextView
+        android:id="@+id/tvSeguidosBUSC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/seguidos"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2BUSC"
+        app:layout_constraintStart_toEndOf="@+id/tvSeguidoresBUSC"
+        app:layout_constraintTop_toBottomOf="@+id/tvSeguidosCuentaBUSC"
+        app:layout_constraintEnd_toStartOf="@id/tvPublicacionesBUSC"/>
+
+    <TextView
+        android:id="@+id/tvPublicacionesBUSC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/publicaciones"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2BUSC"
+        app:layout_constraintStart_toEndOf="@+id/tvSeguidosBUSC"
+        app:layout_constraintTop_toBottomOf="@+id/tvPublicacionesCuentaBUSC"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDividerMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dividerColor="?android:attr/textColorSecondary"
+        app:layout_constraintTop_toBottomOf="@id/tvDescripcionBUSC"
+        android:layout_marginTop="30dp"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvMascotasUsuarioBUSC"
+        app:layout_constraintTop_toBottomOf="@+id/materialDividerMedium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="6dp"/>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/materialDividerBottomBUSC"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dividerColor="?android:attr/textColorSecondary"
+        app:layout_constraintTop_toBottomOf="@id/rvMascotasUsuarioBUSC"
+        android:layout_marginTop="20dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

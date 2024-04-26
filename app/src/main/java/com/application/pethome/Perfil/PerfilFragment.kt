@@ -1,8 +1,6 @@
 package com.application.pethome.Perfil
 
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.application.pethome.R
 import com.application.pethome.Mascota
 import com.application.pethome.MascotaAdapter
-import com.application.pethome.Publication
 import com.application.pethome.databinding.FragmentPerfilBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.AggregateSource
@@ -39,6 +36,7 @@ class PerfilFragment : Fragment() {
 
         getNumberOfPosts()
         getNumberOfFollowed()
+        getNumberOfFollowers()
         getMascotas()
 
         FirebaseAuth.getInstance().currentUser?.uid?.let {
@@ -84,6 +82,16 @@ class PerfilFragment : Fragment() {
 
         query.count().get(AggregateSource.SERVER).addOnSuccessListener { task ->
             binding.tvSeguidosCuenta.text = "${task.count}"
+        }
+    }
+
+    private fun getNumberOfFollowers(){
+        val db = FirebaseFirestore.getInstance()
+        val query = db.collection("users").document(FirebaseAuth.getInstance().currentUser?.uid.toString())
+            .collection("seguidores")
+
+        query.count().get(AggregateSource.SERVER).addOnSuccessListener { task ->
+            binding.tvSeguidoresCuenta.text = "${task.count}"
         }
     }
 
