@@ -11,7 +11,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.application.pethome.Perfil.PerfilFragment
 import com.application.pethome.R
@@ -69,7 +71,31 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
         }
 
         holder.ivFotoPerfil.setOnClickListener {
+            val db = FirebaseFirestore.getInstance()
+            db.collection("users")
+                .whereEqualTo("nombre", user.nombre)
+                .get()
+                .addOnSuccessListener { documents ->
+                    if (documents.isEmpty) {
+                        Toast.makeText(
+                            holder.itemView.context,
+                            "Usuario no encontrado",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        val user = documents.documents[0].toObject(User::class.java)
+                        if (user != null) {
+                            val bundle = Bundle()
+                            bundle.putParcelable("user", user)
 
+                            // Navigate to PUBuscadorFragment and pass the user data
+                            it.findNavController().navigate(R.id.action_buscadorFragment_to_PUBuscadorFragment, bundle)
+                        }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.w(TAG, "Error obteniendo documentos: ", exception)
+                }
         }
 
         holder.btSeguir.setOnClickListener {
