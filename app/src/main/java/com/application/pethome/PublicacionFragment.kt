@@ -75,6 +75,7 @@ class PublicacionFragment : Fragment() {
                         val imageUrl = uri.toString()
 
                         val publicationData = hashMapOf(
+                            "id" to uniqueID,
                             "nombre" to nombre,
                             "imagen" to imageUrl
                         )

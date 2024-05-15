@@ -89,7 +89,10 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
                             bundle.putParcelable("user", user)
 
                             // Navigate to PUBuscadorFragment and pass the user data
-                            it.findNavController().navigate(R.id.action_buscadorFragment_to_PUBuscadorFragment, bundle)
+                            it.findNavController().navigate(
+                                R.id.action_buscadorFragment_to_PUBuscadorFragment,
+                                bundle
+                            )
                         }
                     }
                 }

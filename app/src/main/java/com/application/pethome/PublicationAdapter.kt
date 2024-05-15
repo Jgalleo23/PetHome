@@ -31,32 +31,21 @@ class PublicationAdapter(private var publications: List<Publication>) :
 
         // Set initial icon based on whether the user has liked the publication
         val userId = FirebaseAuth.getInstance().currentUser?.uid
-        if (userId in publication.likes) {
-            holder.binding.btMeGusta.setImageResource(R.drawable.baseline_favorite_24)
-        } else {
-            holder.binding.btMeGusta.setImageResource(R.drawable.like_icon)
-        }
+        val publicationId = publication.id
 
         // Set click listener to toggle like status
         holder.binding.btMeGusta.setOnClickListener {
-            if (userId in publication.likes) {
-                publication.likes.remove(userId)
-                holder.binding.btMeGusta.setImageResource(R.drawable.like_icon)
-            } else {
-                if (userId != null) {
-                    publication.likes.add(userId)
+            val db = FirebaseFirestore.getInstance().collection("users").document(userId!!)
+            val publicationRef = db.collection("publications").document(publication.id)
+            //Si la coleccion likes no extiste, se crea
+            publicationRef.collection("likes").document(userId).get().addOnSuccessListener {
+                if (it.exists()) {
+                    publicationRef.collection("likes").document(userId).delete()
+                    holder.binding.btMeGusta.setImageResource(R.drawable.like_icon)
+                } else {
+                    publicationRef.collection("likes").document(userId).set(hashMapOf("liked" to true))
+                    holder.binding.btMeGusta.setImageResource(R.drawable.baseline_favorite_24)
                 }
-                holder.binding.btMeGusta.setImageResource(R.drawable.baseline_favorite_24)
-            }
-
-            // Update publication in Firestore
-            val db = FirebaseFirestore.getInstance()
-            if (publication.id.isNotEmpty()) {
-                db.collection("publications").document(publication.id)
-                    .set(publication)
-                    .addOnFailureListener { exception ->
-                        Log.w(TAG, "Error updating document", exception)
-                    }
             }
         }
     }

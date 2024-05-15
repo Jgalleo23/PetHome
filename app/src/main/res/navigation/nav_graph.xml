@@ -102,5 +102,14 @@
         android:id="@+id/PUBuscadorFragment"
         android:name="com.application.pethome.Buscador.PUBuscadorFragment"
         android:label="fragment_p_u_buscador"
-        tools:layout="@layout/fragment_p_u_buscador" />
+        tools:layout="@layout/fragment_p_u_buscador" >
+        <action
+            android:id="@+id/action_PUBuscadorFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.application.pethome.Mensajeria.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
 </navigation>

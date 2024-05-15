@@ -37,7 +37,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="10dp"
             android:singleLine="true"
-            android:hint="Correo:" />
+            android:hint="@string/correo" />
 
         <EditText
             android:id="@+id/etContrasena"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="60dp"
-            android:hint="Contraseña:"
+            android:hint="@string/contrasena"
             android:password="true"
             android:singleLine="true" />
 

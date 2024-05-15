@@ -14,6 +14,7 @@
         android:padding="5sp">
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civFotoMensaje"
             android:layout_width="48sp"
             android:layout_height="48sp"
             android:padding="5sp"
@@ -25,7 +26,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvNombreUsuario"
+                android:id="@+id/tvNombreUsuarioMensaje"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

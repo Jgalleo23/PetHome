@@ -35,28 +35,13 @@
         <item>Otro</item>
     </string-array>
     <string-array name="razas">
-        <item>Affenpinscher</item>
-        <item>Akita</item>
-        <item>Alaskan Malamute</item>
-        <item>Beagle</item>
-        <item>Boxer</item>
-        <item>Bulldog</item>
-        <item>Chihuahua</item>
-        <item>Cocker Spaniel</item>
-        <item>Dálmata</item>
-        <item>Doberman</item>
-        <item>Galgo</item>
-        <item>Golden Retriever</item>
-        <item>Husky Siberiano</item>
-        <item>Labrador Retriever</item>
-        <item>Mastín</item>
-        <item>Pastor Alemán</item>
-        <item>Pitbull</item>
-        <item>Poodle</item>
-        <item>Rottweiler</item>
-        <item>San Bernardo</item>
-        <item>Shar Pei</item>
-        <item>Shih Tzu</item>
-        <item>Yorkshire Terrier</item>
+        <item>Perro</item>
+        <item>Gato</item>
+        <item>Pájaro</item>
+        <item>Conejo</item>
+        <item>Hamster</item>
+        <item>Reptil</item>
+        <item>Pez</item>
+        <item>Otro</item>
     </string-array>
 </resources>
