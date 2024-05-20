@@ -44,4 +44,6 @@
         <item>Pez</item>
         <item>Otro</item>
     </string-array>
+
+    <string name="verificar">Verifica tu cuenta por correo para continuar</string>
 </resources>

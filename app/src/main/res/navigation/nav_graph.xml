@@ -25,6 +25,9 @@
         android:label="fragment_register"
         tools:layout="@layout/fragment_register">
         <action
+            android:id="@+id/action_registerFragment_to_authFragment"
+            app:destination="@id/authFragment" />
+        <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
@@ -45,6 +48,9 @@
         <action
             android:id="@+id/action_mainFragment_to_publicacionFragment"
             app:destination="@id/publicacionFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_PUBuscadorFragment"
+            app:destination="@id/PUBuscadorFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotFragment"
@@ -112,4 +118,13 @@
         android:name="com.application.pethome.Mensajeria.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/authFragment"
+        android:name="com.application.pethome.Inicio.AuthFragment"
+        android:label="fragment_auth"
+        tools:layout="@layout/fragment_auth" >
+        <action
+            android:id="@+id/action_authFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

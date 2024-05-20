@@ -1,8 +1,6 @@
 package com.application.pethome
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +24,7 @@ class PublicationAdapter(private var publications: List<Publication>) :
     override fun onBindViewHolder(holder: PublicationViewHolder, position: Int) {
         val publication = publications[position]
         holder.binding.tvUsuario.text = publication.nombre
+        holder.binding.tvNUDescripcion.text = publication.nombre + ": " + publication.descripcion
         Picasso.get().load(publication.imagen).resize(400, 400).centerCrop()
             .into(holder.binding.ivPost)
 

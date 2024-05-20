@@ -34,6 +34,16 @@
         app:layout_constraintTop_toBottomOf="@+id/ivPerfil"
         app:layout_constraintDimensionRatio="1:1" />
 
+    <TextView
+        android:id="@+id/tvNUDescripcion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPost" />
+
     <ImageButton
         android:id="@+id/btMeGusta"
         android:layout_width="wrap_content"
@@ -43,7 +53,7 @@
         android:background="@android:color/transparent"
         android:src="@drawable/like_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPost" />
+        app:layout_constraintTop_toBottomOf="@+id/tvNUDescripcion" />
 
     <ImageButton
         android:id="@+id/btComentario"

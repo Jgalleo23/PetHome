@@ -90,70 +90,64 @@ class RegisterFragment : Fragment() {
             } else {
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(
                     binding.etCorreo.text.toString(), binding.etContrasena.text.toString()
-                ).addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        val user = FirebaseAuth.getInstance().currentUser?.uid
-                        val correo = binding.etCorreo.text.toString().trim()
-                        val nombre = binding.etUsuario.text.toString().trim()
-                        val sexo = spinnerSexo.selectedItem.toString().trim()
-                        val descripcion = binding.etDescripcion.text.toString().trim()
+                ).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val user = FirebaseAuth.getInstance().currentUser
+                        user?.sendEmailVerification()?.addOnCompleteListener { verTask ->
+                            if (verTask.isSuccessful) {
+                                val correo = binding.etCorreo.text.toString().trim()
+                                val nombre = binding.etUsuario.text.toString().trim()
+                                val sexo = spinnerSexo.selectedItem.toString().trim()
+                                val descripcion = binding.etDescripcion.text.toString().trim()
 
-                        // Subir la imagen a Firebase Storage y obtener la URL
-                        val storageRef =
-                            FirebaseStorage.getInstance().reference.child("profile_images")
-                                .child("$user.jpg")
-                        val bitmap = (binding.ivPerfil.drawable as BitmapDrawable).bitmap
-                        val baos = ByteArrayOutputStream()
-                        bitmap.compress(CompressFormat.JPEG, 100, baos)
-                        val data = baos.toByteArray()
+                                // Subir la imagen a Firebase Storage y obtener la URL
+                                val storageRef =
+                                    FirebaseStorage.getInstance().reference.child("profile_images")
+                                        .child("${user.uid}.jpg")
+                                val bitmap = (binding.ivPerfil.drawable as BitmapDrawable).bitmap
+                                val baos = ByteArrayOutputStream()
+                                bitmap.compress(CompressFormat.JPEG, 100, baos)
+                                val data = baos.toByteArray()
 
-                        val uploadTask = storageRef.putBytes(data)
-                        uploadTask.addOnSuccessListener {
-                            storageRef.downloadUrl.addOnSuccessListener { uri ->
-                                val imageUrl = uri.toString()
+                                val uploadTask = storageRef.putBytes(data)
+                                uploadTask.addOnSuccessListener {
+                                    storageRef.downloadUrl.addOnSuccessListener { uri ->
+                                        val imageUrl = uri.toString()
 
-                                val userData = hashMapOf(
-                                    "uid" to user,
-                                    "nombre" to nombre,
-                                    "correo" to correo,
-                                    "sexo" to sexo,
-                                    "descripcion" to descripcion,
-                                    "imagen" to imageUrl
-                                )
-                                if (user != null) {
-                                    db.collection("users").document(user).set(userData)
-                                        .addOnCompleteListener {
-                                            if (it.isSuccessful) {
-                                                val user =
-                                                    FirebaseAuth.getInstance().currentUser?.uid
+                                        val userData = hashMapOf(
+                                            "uid" to user.uid,
+                                            "nombre" to nombre,
+                                            "correo" to correo,
+                                            "sexo" to sexo,
+                                            "descripcion" to descripcion,
+                                            "imagen" to imageUrl
+                                        )
 
-                                                if (user != null) {
-                                                    db.collection("users").document(user)
-                                                        .set(userData)
-                                                        .addOnCompleteListener {
-                                                            if (it.isSuccessful) {
-                                                                Toast.makeText(
-                                                                    context,
-                                                                    "Usuario registrado correctamente",
-                                                                    Toast.LENGTH_SHORT
-                                                                ).show()
-                                                                binding.progressBar
-                                                                    ?.visibility ?: View.GONE
-                                                                findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
-                                                            } else {
-                                                                binding.etCorreo.error =
-                                                                    "Ha ocurrido un error"
-                                                            }
-                                                        }
+                                        db.collection("users").document(user.uid).set(userData)
+                                            .addOnCompleteListener {
+                                                if (it.isSuccessful) {
+                                                    Toast.makeText(
+                                                        context,
+                                                        "Usuario registrado correctamente, por favor verifica tu correo",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                    binding.progressBar?.visibility ?: View.GONE
+                                                    findNavController().navigate(R.id.action_registerFragment_to_authFragment)
+                                                } else {
+                                                    binding.etCorreo.error = "Ha ocurrido un error"
                                                 }
-                                            } else {
-                                                binding.etCorreo.error = "Ha ocurrido un error"
                                             }
-                                        }
+                                    }
+                                }.addOnFailureListener {
+                                    // Manejar el error
                                 }
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    "Error al enviar correo de verificación",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                        }.addOnFailureListener {
-                            // Manejar el error
                         }
                     } else {
                         binding.etCorreo.error = "Ha ocurrido un error"

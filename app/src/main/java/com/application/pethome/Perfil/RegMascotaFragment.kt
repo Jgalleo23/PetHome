@@ -45,7 +45,7 @@ class RegMascotaFragment : Fragment() {
 
 
         binding.btRegistrarMascota.setOnClickListener {
-            binding.progressBar.visibility = View.VISIBLE
+
 
             val userId = auth.currentUser?.uid
             if (userId != null) {
@@ -91,7 +91,7 @@ class RegMascotaFragment : Fragment() {
                                         "DocumentSnapshot added with ID: ${documentReference.id}"
                                     )
                                     // Hide progress bar and navigate to profile
-                                    binding.progressBar.visibility = View.GONE
+
                                     findNavController().navigate(R.id.action_regMascotaFragment_to_perfilFragment)
                                     Toast.makeText(
                                         context,
@@ -102,12 +102,10 @@ class RegMascotaFragment : Fragment() {
                                 .addOnFailureListener { e ->
                                     Log.w(TAG, "Error adding document", e)
                                     // Hide progress bar on failure
-                                    binding.progressBar.visibility = View.GONE
                                 }
                         }
                     }.addOnFailureListener {
-                        // Hide progress bar on failure
-                        binding.progressBar.visibility = View.GONE
+
                     }
                 } else {
                     Toast.makeText(

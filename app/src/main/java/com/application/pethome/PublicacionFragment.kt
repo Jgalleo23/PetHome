@@ -47,6 +47,7 @@ class PublicacionFragment : Fragment() {
             } else {
                 val user = FirebaseAuth.getInstance().currentUser?.uid
                 var nombre = ""
+                var descripcion = binding.etDescripcion.text.toString()
                 FirebaseAuth.getInstance().currentUser?.uid?.let {
                     FirebaseFirestore.getInstance().collection("users").document(it).get()
                         .addOnSuccessListener {
@@ -77,7 +78,8 @@ class PublicacionFragment : Fragment() {
                         val publicationData = hashMapOf(
                             "id" to uniqueID,
                             "nombre" to nombre,
-                            "imagen" to imageUrl
+                            "imagen" to imageUrl,
+                            "descripcion" to descripcion
                         )
 
                         // Guardar la publicación en la subcolección del usuario
