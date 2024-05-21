@@ -32,17 +32,28 @@ class PublicationAdapter(private var publications: List<Publication>) :
         val userId = FirebaseAuth.getInstance().currentUser?.uid
         val publicationId = publication.id
 
+        // Check if the user has liked the publication
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users").document(userId!!).collection("publications").document(publicationId)
+            .collection("likes").document(userId).get().addOnSuccessListener {
+                if (it.exists()) {
+                    holder.binding.btMeGusta.setImageResource(R.drawable.baseline_favorite_24)
+                } else {
+                    holder.binding.btMeGusta.setImageResource(R.drawable.like_icon)
+                }
+            }
+
         // Set click listener to toggle like status
         holder.binding.btMeGusta.setOnClickListener {
-            val db = FirebaseFirestore.getInstance().collection("users").document(userId!!)
-            val publicationRef = db.collection("publications").document(publication.id)
-            //Si la coleccion likes no extiste, se crea
+            val publicationRef = db.collection("users").document(userId)
+                .collection("publications").document(publication.id)
             publicationRef.collection("likes").document(userId).get().addOnSuccessListener {
                 if (it.exists()) {
                     publicationRef.collection("likes").document(userId).delete()
                     holder.binding.btMeGusta.setImageResource(R.drawable.like_icon)
                 } else {
-                    publicationRef.collection("likes").document(userId).set(hashMapOf("liked" to true))
+                    publicationRef.collection("likes").document(userId)
+                        .set(hashMapOf("liked" to true))
                     holder.binding.btMeGusta.setImageResource(R.drawable.baseline_favorite_24)
                 }
             }
