@@ -48,6 +48,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginTop="100dp"
             android:hint="@string/edad"
+            android:inputType="number"
             android:singleLine="true" />
 
         <EditText

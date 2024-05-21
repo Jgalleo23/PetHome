@@ -45,21 +45,21 @@ class RegMascotaFragment : Fragment() {
 
 
         binding.btRegistrarMascota.setOnClickListener {
-
-
             val userId = auth.currentUser?.uid
             if (userId != null) {
                 val nombreMascota = binding.etNombreMascota.text.toString()
                 val edad = binding.etUsuario.text.toString().toInt()
                 val descripcion = binding.etDescripcion.text.toString()
                 val raza = binding.spinnerRaza.selectedItem.toString()
-                val id =
-                    db.collection("users").document(userId).collection("mascotas").document().id
+
+                // Create a new document and get its ID
+                val newMascotaDoc =
+                    db.collection("users").document(userId).collection("mascotas").document()
+                val id = newMascotaDoc.id
 
                 // Subir la imagen a Firebase Storage y obtener la URL
-                val storageRef =
-                    FirebaseStorage.getInstance().reference.child("mascotas_images")
-                        .child("$id.jpg")
+                val storageRef = FirebaseStorage.getInstance().reference.child("mascotas_images")
+                    .child("$id.jpg")
                 val bitmap = (binding.ivMascota.drawable as BitmapDrawable).bitmap
                 val baos = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
@@ -82,14 +82,10 @@ class RegMascotaFragment : Fragment() {
                                 "idUsuario" to userId
                             )
 
-                            // Add a new document to the "mascotas" collection of the current user
-                            db.collection("users").document(userId).collection("mascotas")
-                                .add(mascota)
-                                .addOnSuccessListener { documentReference ->
-                                    Log.d(
-                                        TAG,
-                                        "DocumentSnapshot added with ID: ${documentReference.id}"
-                                    )
+                            // Set the new document with the mascota data
+                            newMascotaDoc.set(mascota)
+                                .addOnSuccessListener {
+                                    Log.d(TAG, "DocumentSnapshot added with ID: $id")
                                     // Hide progress bar and navigate to profile
 
                                     findNavController().navigate(R.id.action_regMascotaFragment_to_perfilFragment)

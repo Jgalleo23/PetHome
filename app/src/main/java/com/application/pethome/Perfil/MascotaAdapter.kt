@@ -122,7 +122,7 @@ class MascotaAdapter(private var mascotas: List<Mascota>) :
                     db.collection("users").document(selectedUserDocument.id)
                         .collection("mascotas")
                         .document(selectedMascota.id)
-                        .set(selectedMascota)
+                        .set(selectedMascota.copy(id = selectedUserDocument.id)) // Store the DocumentReference's path as a String
                         .addOnSuccessListener {
                             Toast.makeText(
                                 context,
@@ -168,7 +168,7 @@ class MascotaAdapter(private var mascotas: List<Mascota>) :
             .addOnSuccessListener {
                 Toast.makeText(
                     context,
-                    "Mascota asignada con éxito",
+                    "Mascota eliminada con éxito",
                     Toast.LENGTH_SHORT
                 ).show()
             }
