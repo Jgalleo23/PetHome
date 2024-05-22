@@ -98,6 +98,9 @@ dependencies {
     //Firebase Realtime Database
     implementation("com.google.firebase:firebase-database-ktx")
 
+    //Firebase Cloud Messaging
+    implementation("com.google.firebase:firebase-messaging-ktx")
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
