@@ -1,6 +1,7 @@
 package com.application.pethome.Perfil
 
 import android.os.Bundle
+import android.os.Message
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.application.pethome.R
 import com.application.pethome.Mascota
 import com.application.pethome.MascotaAdapter
+import com.application.pethome.Mesage
 import com.application.pethome.databinding.FragmentPerfilBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.RemoteMessage
 import com.squareup.picasso.Picasso
 
 class PerfilFragment : Fragment() {
@@ -32,7 +36,8 @@ class PerfilFragment : Fragment() {
         // Initialize the RecyclerView and its adapter
         mascotaAdapter = MascotaAdapter(listOf())
         binding.rvMascotasUsuario.adapter = mascotaAdapter
-        binding.rvMascotasUsuario.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvMascotasUsuario.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         getNumberOfPosts()
         getNumberOfFollowed()
@@ -40,22 +45,25 @@ class PerfilFragment : Fragment() {
         getMascotas()
 
         FirebaseAuth.getInstance().currentUser?.uid?.let {
-            FirebaseFirestore.getInstance().collection("users").document(it).get().addOnSuccessListener {
-                if (it.exists()) {
-                    binding.txtUsuario.text = it.getString("nombre")
-                    binding.tvNombreUsuario.text = it.getString("nombre")
-                    binding.tvDescripcion.text = it.getString("descripcion")
-                    Picasso.get().load(it.getString("imagen")).into(binding.imageView2)
+            FirebaseFirestore.getInstance().collection("users").document(it).get()
+                .addOnSuccessListener {
+                    if (it.exists()) {
+                        binding.txtUsuario.text = it.getString("nombre")
+                        binding.tvNombreUsuario.text = it.getString("nombre")
+                        binding.tvDescripcion.text = it.getString("descripcion")
+                        Picasso.get().load(it.getString("imagen")).into(binding.imageView2)
 
-                    // Query the mascotas collection of the current user
-                    FirebaseFirestore.getInstance().collection("users").document(it.id).collection("mascotas")
-                        .get()
-                        .addOnSuccessListener { documents ->
-                            val mascotas = documents.mapNotNull { it.toObject(Mascota::class.java) }
-                            mascotaAdapter.updateMascotas(mascotas)
-                        }
+                        // Query the mascotas collection of the current user
+                        FirebaseFirestore.getInstance().collection("users").document(it.id)
+                            .collection("mascotas")
+                            .get()
+                            .addOnSuccessListener { documents ->
+                                val mascotas =
+                                    documents.mapNotNull { it.toObject(Mascota::class.java) }
+                                mascotaAdapter.updateMascotas(mascotas)
+                            }
+                    }
                 }
-            }
         }
 
         binding.fabSubirMascota.setOnClickListener {
@@ -67,28 +75,31 @@ class PerfilFragment : Fragment() {
 
     private fun getNumberOfPosts() {
         val db = FirebaseFirestore.getInstance()
-        val query = db.collection("users").document(FirebaseAuth.getInstance().currentUser?.uid.toString())
-            .collection("publications")
+        val query =
+            db.collection("users").document(FirebaseAuth.getInstance().currentUser?.uid.toString())
+                .collection("publications")
 
         query.count().get(AggregateSource.SERVER).addOnSuccessListener { task ->
             binding.tvPublicacionesCuenta.text = "${task.count}"
         }
     }
 
-    private fun getNumberOfFollowed(){
+    private fun getNumberOfFollowed() {
         val db = FirebaseFirestore.getInstance()
-        val query = db.collection("users").document(FirebaseAuth.getInstance().currentUser?.uid.toString())
-            .collection("seguidos")
+        val query =
+            db.collection("users").document(FirebaseAuth.getInstance().currentUser?.uid.toString())
+                .collection("seguidos")
 
         query.count().get(AggregateSource.SERVER).addOnSuccessListener { task ->
             binding.tvSeguidosCuenta.text = "${task.count}"
         }
     }
 
-    private fun getNumberOfFollowers(){
+    private fun getNumberOfFollowers() {
         val db = FirebaseFirestore.getInstance()
-        val query = db.collection("users").document(FirebaseAuth.getInstance().currentUser?.uid.toString())
-            .collection("seguidores")
+        val query =
+            db.collection("users").document(FirebaseAuth.getInstance().currentUser?.uid.toString())
+                .collection("seguidores")
 
         query.count().get(AggregateSource.SERVER).addOnSuccessListener { task ->
             binding.tvSeguidoresCuenta.text = "${task.count}"
@@ -97,7 +108,8 @@ class PerfilFragment : Fragment() {
 
     private fun getMascotas() {
         FirebaseAuth.getInstance().currentUser?.uid?.let { userId ->
-            FirebaseFirestore.getInstance().collection("users").document(userId).collection("mascotas")
+            FirebaseFirestore.getInstance().collection("users").document(userId)
+                .collection("mascotas")
                 .get()
                 .addOnSuccessListener { documents ->
                     val mascotas = documents.mapNotNull { it.toObject(Mascota::class.java) }

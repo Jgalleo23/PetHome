@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="semi">#C1FECFFF</color>
     <color name="blue">#DC9C9CFF</color>
+    <color name="red">#FF0000</color>
 </resources>

@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.RemoteMessage
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
@@ -55,10 +57,18 @@ class MascotaAdapter(private var mascotas: List<Mascota>) :
                                 val selectedMascota = mascotas[adapterPosition]
 
                                 // Asigna la mascota al usuario seleccionado
-                                asignarMascotaAUsuario(selectedUserName, selectedMascota, context)
+                                //asignarMascotaAUsuario(selectedUserName, selectedMascota, context)
 
                                 // Elimina la mascota del usuario actual
-                                eliminarMascotaDeUsuario(userId, selectedMascota, context)
+                                //eliminarMascotaDeUsuario(userId, selectedMascota, context)
+
+                                // Crea una notificación para el usuario seleccionado
+                                crearNotificacionParaUsuario(
+                                    userId,
+                                    selectedMascota,
+                                    selectedUserName,
+                                    context
+                                )
 
                                 dialog.dismiss()
                             }
@@ -176,6 +186,88 @@ class MascotaAdapter(private var mascotas: List<Mascota>) :
                 Toast.makeText(
                     context,
                     "Error eliminando mascota: ${exception.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+    }
+
+    private fun crearNotificacionParaUsuario(
+        asignadorId: String,
+        mascota: Mascota,
+        asignadoNombre: String,
+        context: Context
+    ) {
+        val db = FirebaseFirestore.getInstance()
+
+        // Buscar el documento del usuario asignador por su ID
+        db.collection("users").document(asignadorId)
+            .get()
+            .addOnSuccessListener { asignadorDocument ->
+                val asignadorNombre = asignadorDocument.getString("nombre")
+
+                // Buscar el documento del usuario asignado por su nombre de usuario
+                db.collection("users").whereEqualTo("nombre", asignadoNombre)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        if (documents.documents.isNotEmpty()) {
+                            val asignadoDocument = documents.documents[0]
+
+                            // Crear un nuevo documento con un ID único en la colección 'notis' del usuario asignado
+                            val newNotiRef =
+                                db.collection("users").document(asignadoDocument.id)
+                                    .collection("notis")
+                                    .document()
+
+                            // Crear el objeto notificación
+                            val notiData = hashMapOf(
+                                "asignadorId" to asignadorId,
+                                "asignadorNombre" to asignadorNombre,
+                                "mascotaImagen" to mascota.imagen,
+                                "mascotaNombre" to mascota.nombre,
+                                "mascotaRaza" to mascota.raza,
+                                "mascotaEdad" to mascota.edad,
+                                "mascotaDescripcion" to mascota.descripcion,
+                                "mascotaId" to mascota.id,
+                                "asignadoId" to asignadoDocument.id,
+                                "asignadoNombre" to asignadoNombre
+                            )
+
+                            // Guardar el objeto notificación en Firestore
+                            newNotiRef.set(notiData)
+                                .addOnSuccessListener {
+                                    Toast.makeText(
+                                        context,
+                                        "Notificación creada con éxito",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                .addOnFailureListener { exception ->
+                                    Toast.makeText(
+                                        context,
+                                        "Error creando notificación: ${exception.message}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "No se encontró el usuario seleccionado",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Toast.makeText(
+                            context,
+                            "Error buscando el usuario seleccionado: ${exception.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+            }
+            .addOnFailureListener { exception ->
+                Toast.makeText(
+                    context,
+                    "Error buscando el usuario asignador: ${exception.message}",
                     Toast.LENGTH_SHORT
                 ).show()
             }

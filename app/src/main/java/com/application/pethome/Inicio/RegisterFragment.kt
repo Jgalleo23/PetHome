@@ -1,6 +1,7 @@
 package com.application.pethome.Inicio
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.Paint
@@ -8,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,8 +21,10 @@ import androidx.navigation.fragment.findNavController
 import com.application.pethome.R
 import com.application.pethome.databinding.FragmentLoginBinding
 import com.application.pethome.databinding.FragmentRegisterBinding
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 
@@ -33,6 +37,7 @@ class RegisterFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
 
     private val PICK_IMAGE_REQUEST = 71
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -95,52 +100,70 @@ class RegisterFragment : Fragment() {
                         val user = FirebaseAuth.getInstance().currentUser
                         user?.sendEmailVerification()?.addOnCompleteListener { verTask ->
                             if (verTask.isSuccessful) {
-                                val correo = binding.etCorreo.text.toString().trim()
-                                val nombre = binding.etUsuario.text.toString().trim()
-                                val sexo = spinnerSexo.selectedItem.toString().trim()
-                                val descripcion = binding.etDescripcion.text.toString().trim()
+                                FirebaseMessaging.getInstance().token.addOnCompleteListener(
+                                    OnCompleteListener { tokenTask ->
+                                        if (!tokenTask.isSuccessful) {
+                                            Log.w(
+                                                TAG,
+                                                "Fetching FCM registration token failed",
+                                                tokenTask.exception
+                                            )
+                                            return@OnCompleteListener
+                                        }
+                                        val correo = binding.etCorreo.text.toString().trim()
+                                        val nombre = binding.etUsuario.text.toString().trim()
+                                        val sexo = spinnerSexo.selectedItem.toString().trim()
+                                        val descripcion =
+                                            binding.etDescripcion.text.toString().trim()
+                                        val token = tokenTask.result
 
-                                // Subir la imagen a Firebase Storage y obtener la URL
-                                val storageRef =
-                                    FirebaseStorage.getInstance().reference.child("profile_images")
-                                        .child("${user.uid}.jpg")
-                                val bitmap = (binding.ivPerfil.drawable as BitmapDrawable).bitmap
-                                val baos = ByteArrayOutputStream()
-                                bitmap.compress(CompressFormat.JPEG, 100, baos)
-                                val data = baos.toByteArray()
+                                        // Subir la imagen a Firebase Storage y obtener la URL
+                                        val storageRef =
+                                            FirebaseStorage.getInstance().reference.child("profile_images")
+                                                .child("${user.uid}.jpg")
+                                        val bitmap =
+                                            (binding.ivPerfil.drawable as BitmapDrawable).bitmap
+                                        val baos = ByteArrayOutputStream()
+                                        bitmap.compress(CompressFormat.JPEG, 100, baos)
+                                        val data = baos.toByteArray()
 
-                                val uploadTask = storageRef.putBytes(data)
-                                uploadTask.addOnSuccessListener {
-                                    storageRef.downloadUrl.addOnSuccessListener { uri ->
-                                        val imageUrl = uri.toString()
+                                        val uploadTask = storageRef.putBytes(data)
+                                        uploadTask.addOnSuccessListener {
+                                            storageRef.downloadUrl.addOnSuccessListener { uri ->
+                                                val imageUrl = uri.toString()
 
-                                        val userData = hashMapOf(
-                                            "uid" to user.uid,
-                                            "nombre" to nombre,
-                                            "correo" to correo,
-                                            "sexo" to sexo,
-                                            "descripcion" to descripcion,
-                                            "imagen" to imageUrl
-                                        )
+                                                val userData = hashMapOf(
+                                                    "uid" to user.uid,
+                                                    "nombre" to nombre,
+                                                    "correo" to correo,
+                                                    "sexo" to sexo,
+                                                    "descripcion" to descripcion,
+                                                    "imagen" to imageUrl,
+                                                    "token" to token
+                                                )
 
-                                        db.collection("users").document(user.uid).set(userData)
-                                            .addOnCompleteListener {
-                                                if (it.isSuccessful) {
-                                                    Toast.makeText(
-                                                        context,
-                                                        "Usuario registrado correctamente, por favor verifica tu correo",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                    binding.progressBar?.visibility ?: View.GONE
-                                                    findNavController().navigate(R.id.action_registerFragment_to_authFragment)
-                                                } else {
-                                                    binding.etCorreo.error = "Ha ocurrido un error"
-                                                }
+                                                db.collection("users").document(user.uid)
+                                                    .set(userData)
+                                                    .addOnCompleteListener {
+                                                        if (it.isSuccessful) {
+                                                            Toast.makeText(
+                                                                context,
+                                                                "Usuario registrado correctamente, por favor verifica tu correo",
+                                                                Toast.LENGTH_SHORT
+                                                            ).show()
+                                                            binding.progressBar?.visibility
+                                                                ?: View.GONE
+                                                            findNavController().navigate(R.id.action_registerFragment_to_authFragment)
+                                                        } else {
+                                                            binding.etCorreo.error =
+                                                                "Ha ocurrido un error"
+                                                        }
+                                                    }
                                             }
-                                    }
-                                }.addOnFailureListener {
-                                    // Manejar el error
-                                }
+                                        }.addOnFailureListener {
+                                            // Manejar el error
+                                        }
+                                    })
                             } else {
                                 Toast.makeText(
                                     context,

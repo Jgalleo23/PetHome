@@ -44,8 +44,11 @@ android {
 dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.car.ui.lib)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.storage.ktx)
     //Fragmentos
-    val fragment_version = "1.6.2"
+    val fragment_version = "1.7.1"
 
     implementation("androidx.fragment:fragment:$fragment_version")
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
@@ -64,11 +67,6 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
 
-    //Datastore
-    implementation("androidx.datastore:datastore:1.0.0")
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-
     //Picasso
     implementation("com.squareup.picasso:picasso:2.71828")
 
@@ -80,26 +78,10 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     //Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
 
-    //Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
-    implementation("com.google.firebase:firebase-analytics")
-
-    //Firebase Auth
-    implementation("com.google.firebase:firebase-auth-ktx")
-
-    //Firebase Firestore
-    implementation("com.google.firebase:firebase-firestore-ktx")
-
-    //Firebase Storage
-    implementation("com.google.firebase:firebase-storage-ktx")
-
-    //Firebase Realtime Database
-    implementation("com.google.firebase:firebase-database-ktx")
-
-    //Firebase Cloud Messaging
-    implementation("com.google.firebase:firebase-messaging-ktx")
+    //BadgeDrawable
+    implementation ("com.google.android.material:material:1.4.0")
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation(libs.androidx.core.ktx)

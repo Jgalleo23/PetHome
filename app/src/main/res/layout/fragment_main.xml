@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainFragment">
 
+
     <LinearLayout
         android:id="@+id/cabecera"
         android:layout_width="match_parent"
@@ -49,6 +50,14 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="5dp"
             android:src="@drawable/account_icon" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btNotis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:src="@drawable/alert_icon" />
 
     </LinearLayout>
 

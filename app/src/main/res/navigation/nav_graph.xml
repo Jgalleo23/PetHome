@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_mainFragment_to_PUBuscadorFragment"
             app:destination="@id/PUBuscadorFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_notisFragment"
+            app:destination="@id/notisFragment" />
     </fragment>
     <fragment
         android:id="@+id/forgotFragment"
@@ -127,4 +130,9 @@
             android:id="@+id/action_authFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/notisFragment"
+        android:name="com.application.pethome.NotisFragment"
+        android:label="fragment_notis"
+        tools:layout="@layout/fragment_notis" />
 </navigation>
