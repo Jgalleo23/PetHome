@@ -83,6 +83,13 @@ dependencies {
     //BadgeDrawable
     implementation ("com.google.android.material:material:1.4.0")
 
+    //CameraX
+    implementation("androidx.camera:camera-camera2:1.1.0")
+    implementation("androidx.camera:camera-lifecycle:1.1.0")
+    implementation("androidx.camera:camera-view:1.1.0")
+    implementation("androidx.camera:camera-extensions:1.1.0")
+    implementation("androidx.camera:camera-core:1.1.0")
+
     implementation("androidx.core:core-ktx:1.12.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

@@ -8,20 +8,18 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.view.KeyEvent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
+import com.application.pethome.Objetos.Notification
 import com.application.pethome.databinding.ActivityMainBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.messaging.FirebaseMessaging
 
 private var _binding: ActivityMainBinding? = null
 private val binding
@@ -31,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val CHANNEL_ID = "PetHome"
+        const val REQUEST_ID_MULTIPLE_PERMISSIONS = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,16 +48,60 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
                 NotificationChannel(CHANNEL_ID, "PetHome", NotificationManager.IMPORTANCE_HIGH)
-            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
 
         getNotis()
-        solicitarPermisos()
+        onRequestPermissionsResult(
+            REQUEST_ID_MULTIPLE_PERMISSIONS,
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            intArrayOf(PackageManager.PERMISSION_GRANTED, PackageManager.PERMISSION_GRANTED)
+        )
 
         setContentView(view)
     }
 
+    override fun onResume() {
+        super.onResume()
+        handler.post(runnableCode)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(runnableCode)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            REQUEST_ID_MULTIPLE_PERMISSIONS -> {
+                val perms = HashMap<String, Int>()
+                // Inicializa el mapa de permisos con todos aprobados
+                perms[Manifest.permission.CAMERA] = PackageManager.PERMISSION_GRANTED
+                perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] =
+                    PackageManager.PERMISSION_GRANTED
+                // Rellena el mapa con los permisos reales devueltos en la solicitud
+                if (grantResults.isNotEmpty()) {
+                    for (i in permissions.indices)
+                        perms[permissions[i]] = grantResults[i]
+                    // Verifica cada permiso para ver si fue denegado
+                    if (perms[Manifest.permission.CAMERA] == PackageManager.PERMISSION_GRANTED
+                        && perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        // Todos los permisos fueron aprobados
+                    } else {
+                        // Algunos permisos fueron denegados
+                    }
+                }
+            }
+        }
+    }
 
     private fun getNotis() {
         val db = FirebaseFirestore.getInstance()
@@ -91,40 +134,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun simpleNotification() {
-        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setContentText("Tienes una nueva notificación")
             .setContentTitle("PetHome")
             .setSmallIcon(R.drawable.alert_icon)
             .build()
         notificationManager.notify(1, notification)
-    }
-
-    fun solicitarPermisos() {
-        val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
-            if (isGranted) {
-                // Permiso concedido
-            } else {
-                // Permiso denegado
-            }
-        }
-        when {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                // Permiso concedido
-            }
-            ActivityCompat.shouldShowRequestPermissionRationale(
-                this,
-                Manifest.permission.CAMERA
-            ) -> {
-                // Mostrar diálogo explicativo
-            }
-            else -> {
-                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-            }
-        }
     }
 
     private val handler = Handler()
@@ -135,13 +152,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        handler.post(runnableCode)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        handler.removeCallbacks(runnableCode)
-    }
 }

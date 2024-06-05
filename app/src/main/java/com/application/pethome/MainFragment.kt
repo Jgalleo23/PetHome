@@ -12,15 +12,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.widget.NestedScrollView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.application.pethome.Objetos.Notification
+import com.application.pethome.Objetos.Publication
+import com.application.pethome.Publicaciones.PublicationAdapter
 import com.application.pethome.databinding.FragmentMainBinding
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
@@ -80,6 +79,46 @@ class MainFragment : Fragment() {
         getNotis()
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        handler.post(runnableCode)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.removeCallbacks(runnableCode)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            MainActivity.REQUEST_ID_MULTIPLE_PERMISSIONS -> {
+                val perms = HashMap<String, Int>()
+                // Inicializa el mapa de permisos con todos aprobados
+                perms[Manifest.permission.CAMERA] = PackageManager.PERMISSION_GRANTED
+                perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] =
+                    PackageManager.PERMISSION_GRANTED
+                // Rellena el mapa con los permisos reales devueltos en la solicitud
+                if (grantResults.isNotEmpty()) {
+                    for (i in permissions.indices)
+                        perms[permissions[i]] = grantResults[i]
+                    // Verifica cada permiso para ver si fue denegado
+                    if (perms[Manifest.permission.CAMERA] == PackageManager.PERMISSION_GRANTED
+                        && perms[Manifest.permission.WRITE_EXTERNAL_STORAGE] == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        // Todos los permisos fueron aprobados
+                    } else {
+                        // Algunos permisos fueron denegados
+                    }
+                }
+            }
+        }
     }
 
     private fun getPublications() {
@@ -158,15 +197,4 @@ class MainFragment : Fragment() {
             handler.postDelayed(this, 5000)
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        handler.post(runnableCode)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        handler.removeCallbacks(runnableCode)
-    }
-
 }

@@ -92,7 +92,7 @@
     </fragment>
     <fragment
         android:id="@+id/publicacionFragment"
-        android:name="com.application.pethome.PublicacionFragment"
+        android:name="com.application.pethome.Publicaciones.PublicacionFragment"
         android:label="PublicacionFragment">
         <action
             android:id="@+id/action_publicacionFragment_to_mainFragment"
@@ -132,7 +132,7 @@
     </fragment>
     <fragment
         android:id="@+id/notisFragment"
-        android:name="com.application.pethome.NotisFragment"
+        android:name="com.application.pethome.Notificaciones.NotisFragment"
         android:label="fragment_notis"
         tools:layout="@layout/fragment_notis" />
 </navigation>

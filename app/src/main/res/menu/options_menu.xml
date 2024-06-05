@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/mainFragment"
-        android:icon="@drawable/baseline_account_balance_24"
+        android:icon="@drawable/alert_icon"
         android:orderInCategory="100"
         android:title="Home"
         app:showAsAction="never" />

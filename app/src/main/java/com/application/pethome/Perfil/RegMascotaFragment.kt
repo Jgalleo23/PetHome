@@ -1,6 +1,7 @@
 package com.application.pethome.Perfil
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Bitmap
@@ -30,6 +31,7 @@ class RegMascotaFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
 
     private val PICK_IMAGE_REQUEST = 71
+    private val REQUEST_IMAGE_CAPTURE = 1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,7 +42,7 @@ class RegMascotaFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
 
         binding.ivMascota.setOnClickListener {
-            openImageChooser()
+            showImagePickDialog()
         }
 
 
@@ -51,6 +53,14 @@ class RegMascotaFragment : Fragment() {
                 val edad = binding.etUsuario.text.toString().toInt()
                 val descripcion = binding.etDescripcion.text.toString()
                 val raza = binding.spinnerRaza.selectedItem.toString()
+
+                // Desactivar los campos
+                binding.etNombreMascota.isEnabled = false
+                binding.etUsuario.isEnabled = false
+                binding.etDescripcion.isEnabled = false
+                binding.spinnerRaza.isEnabled = false
+                binding.ivMascota.isEnabled = false
+                binding.btRegistrarMascota.isEnabled = false
 
                 // Create a new document and get its ID
                 val newMascotaDoc =
@@ -66,7 +76,7 @@ class RegMascotaFragment : Fragment() {
                 val data = baos.toByteArray()
 
                 // Check if the fields are not empty
-                if (nombreMascota.isNotEmpty() && descripcion.isNotEmpty()) {
+                if (nombreMascota.isNotEmpty() && descripcion.isNotEmpty() && raza.isNotEmpty() && edad != 0 && data.isNotEmpty()) {
                     val uploadTask = storageRef.putBytes(data)
                     uploadTask.addOnSuccessListener {
                         storageRef.downloadUrl.addOnSuccessListener { uri ->
@@ -98,10 +108,23 @@ class RegMascotaFragment : Fragment() {
                                 .addOnFailureListener { e ->
                                     Log.w(TAG, "Error adding document", e)
                                     // Hide progress bar on failure
+                                    // Habilitar los campos
+                                    binding.etNombreMascota.isEnabled = true
+                                    binding.etUsuario.isEnabled = true
+                                    binding.etDescripcion.isEnabled = true
+                                    binding.spinnerRaza.isEnabled = true
+                                    binding.ivMascota.isEnabled = true
+                                    binding.btRegistrarMascota.isEnabled = true
                                 }
                         }
                     }.addOnFailureListener {
-
+                        // Habilitar los campos
+                        binding.etNombreMascota.isEnabled = true
+                        binding.etUsuario.isEnabled = true
+                        binding.etDescripcion.isEnabled = true
+                        binding.spinnerRaza.isEnabled = true
+                        binding.ivMascota.isEnabled = true
+                        binding.btRegistrarMascota.isEnabled = true
                     }
                 } else {
                     Toast.makeText(
@@ -109,6 +132,12 @@ class RegMascotaFragment : Fragment() {
                         "Por favor, rellene todos los campos",
                         Toast.LENGTH_SHORT
                     ).show()
+                    // Habilitar los campos
+                    binding.etNombreMascota.isEnabled = true
+                    binding.etUsuario.isEnabled = true
+                    binding.etDescripcion.isEnabled = true
+                    binding.spinnerRaza.isEnabled = true
+                    binding.ivMascota.isEnabled = true
                 }
             }
         }
@@ -123,9 +152,20 @@ class RegMascotaFragment : Fragment() {
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
     }
 
+    private fun openCamera() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+    }
+
     // Esta función maneja el resultado de la selección de la imagen
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            binding.ivMascota.setImageBitmap(imageBitmap)
+            binding.ivMascota.background = null
+        }
+
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
             val uri = data.data
             try {
@@ -137,4 +177,19 @@ class RegMascotaFragment : Fragment() {
             }
         }
     }
+
+    private fun showImagePickDialog() {
+        val options = arrayOf("Tomar foto", "Seleccionar de la galería")
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Elige una opción")
+        builder.setItems(options) { _, which ->
+            when (which) {
+                0 -> openCamera() // Si elige "Tomar foto", llama a openCamera()
+                1 -> openImageChooser() // Si elige "Seleccionar de la galería", llama a openImageChooser()
+            }
+        }
+        builder.show()
+    }
+
+
 }

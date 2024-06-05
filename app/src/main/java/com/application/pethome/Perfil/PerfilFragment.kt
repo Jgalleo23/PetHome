@@ -1,7 +1,6 @@
 package com.application.pethome.Perfil
 
 import android.os.Bundle
-import android.os.Message
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +8,12 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.application.pethome.R
-import com.application.pethome.Mascota
+import com.application.pethome.Objetos.Mascota
 import com.application.pethome.MascotaAdapter
-import com.application.pethome.Mesage
 import com.application.pethome.databinding.FragmentPerfilBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.AggregateSource
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.messaging.FirebaseMessaging
-import com.google.firebase.messaging.RemoteMessage
 import com.squareup.picasso.Picasso
 
 class PerfilFragment : Fragment() {

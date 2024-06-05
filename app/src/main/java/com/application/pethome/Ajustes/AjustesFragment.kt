@@ -14,6 +14,7 @@ class AjustesFragment : Fragment() {
     private var _binding: FragmentAjustesBinding? = null
     private val binding
         get() = _binding ?: throw IllegalStateException("Binding is not initialized")
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

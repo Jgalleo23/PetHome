@@ -7,16 +7,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.application.pethome.Chat
-import com.application.pethome.Mascota
+import com.application.pethome.Objetos.Chat
+import com.application.pethome.Objetos.Mascota
 import com.application.pethome.MascotaAdapter
 import com.application.pethome.Mensajeria.ChatAdapter
-import com.application.pethome.Mesage
+import com.application.pethome.Objetos.Mesage
 import com.application.pethome.R
-import com.application.pethome.User
+import com.application.pethome.Objetos.User
 import com.application.pethome.databinding.FragmentPUBuscadorBinding
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -39,16 +38,17 @@ class PUBuscadorFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
+        // Inflar el fragmento
         _binding = FragmentPUBuscadorBinding.inflate(inflater, container, false)
 
-        // Initialize the RecyclerView and its adapter
+        // Iniciar el adaptador de mascotas y asignarlo al RecyclerView
         mascotaAdapter = MascotaAdapter(listOf())
         binding.rvMascotasUsuarioBUSC.adapter = mascotaAdapter
 
         // Set a LinearLayoutManager to the RecyclerView
-        binding.rvMascotasUsuarioBUSC.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvMascotasUsuarioBUSC.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
         return binding.root
     }
@@ -57,10 +57,10 @@ class PUBuscadorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        // Get the user from the arguments
+        // Obtener el usuario de los argumentos
         val user: User? = arguments?.getParcelable("user")
 
-        // Use the user data to fill in the fields
+        // Usar el usuario para rellenar la vista
         if (user != null) {
             // Replace these with the actual fields in your layout
             binding.tvNombreUsuarioBUSC.text = user.nombre
@@ -82,6 +82,7 @@ class PUBuscadorFragment : Fragment() {
         }
     }
 
+    // Obteniendo el número de publicaciones
     private fun getNumberOfPosts(userId: String) {
         if (userId.isNotEmpty()) {
             val db = FirebaseFirestore.getInstance()
@@ -96,6 +97,7 @@ class PUBuscadorFragment : Fragment() {
         }
     }
 
+    // Obteniendo el número de seguidos
     private fun getNumberOfFollowed(userId: String) {
         if (userId.isNotEmpty()) {
             val db = FirebaseFirestore.getInstance()
@@ -110,6 +112,7 @@ class PUBuscadorFragment : Fragment() {
         }
     }
 
+    // Obteniendo el número de seguidores
     private fun getNumberOfFollowers(userId: String) {
         if (userId.isNotEmpty()) {
             val db = FirebaseFirestore.getInstance()
@@ -124,6 +127,7 @@ class PUBuscadorFragment : Fragment() {
         }
     }
 
+    //Obteniendo las mascotas del usuario
     private fun getMascotas(userId: String) {
         if (userId.isNotEmpty()) {
             FirebaseFirestore.getInstance().collection("users").document(userId)
@@ -138,6 +142,7 @@ class PUBuscadorFragment : Fragment() {
         }
     }
 
+    // Buscar un chat existente entre el usuario actual y el usuario pasado como argumento
     private fun buscarChatExistente(user: User) {
         val uidUsuario1 = FirebaseAuth.getInstance().currentUser?.uid.toString()
         val uidUsuario2 = user.uid
@@ -163,6 +168,7 @@ class PUBuscadorFragment : Fragment() {
         }
     }
 
+    // Navegar al chat con el chatId proporcionado
     private fun navegarAlChat(chatId: String, user: User) {
         val bundle = Bundle().apply {
             putString("chatId", chatId)
@@ -175,6 +181,7 @@ class PUBuscadorFragment : Fragment() {
         )
     }
 
+    // Crear un nuevo chat entre dos usuarios
     private fun crearNuevoChat(uidUsuario1: String, uidUsuario2: String): String {
         val db = FirebaseFirestore.getInstance()
         val chat =
@@ -188,6 +195,7 @@ class PUBuscadorFragment : Fragment() {
         return chat.id ?: ""
     }
 
+    // Recoger los mensajes de un chat
     private fun recogerMensajes(idChat: String) {
         val db = FirebaseFirestore.getInstance()
         db.collection("chats").document(idChat).collection("mensajes")

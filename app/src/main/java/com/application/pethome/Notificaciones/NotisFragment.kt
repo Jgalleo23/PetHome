@@ -1,4 +1,4 @@
-package com.application.pethome
+package com.application.pethome.Notificaciones
 
 import android.os.Bundle
 import android.os.Handler
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.application.pethome.Objetos.Notification
 import com.application.pethome.databinding.FragmentNotisBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth

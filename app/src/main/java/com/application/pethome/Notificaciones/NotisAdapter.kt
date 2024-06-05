@@ -1,10 +1,11 @@
-package com.application.pethome
+package com.application.pethome.Notificaciones
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.application.pethome.Objetos.Notification
 import com.application.pethome.databinding.NotiModelBinding
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth

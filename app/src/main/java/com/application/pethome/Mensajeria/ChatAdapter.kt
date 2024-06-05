@@ -7,8 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.application.pethome.R
-import com.application.pethome.User
-import com.application.pethome.Mesage
+import com.application.pethome.Objetos.User
+import com.application.pethome.Objetos.Mesage
 import com.squareup.picasso.Picasso
 
 class ChatAdapter(private var messages: List<Mesage>, private val chatId: String) :

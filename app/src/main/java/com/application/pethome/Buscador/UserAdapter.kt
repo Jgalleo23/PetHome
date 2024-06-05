@@ -2,7 +2,6 @@ package com.application.pethome.Buscador
 
 import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,12 +11,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.application.pethome.Perfil.PerfilFragment
 import com.application.pethome.R
-import com.application.pethome.User
+import com.application.pethome.Objetos.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,6 +22,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class UserAdapter(private var users: List<User>, private val userSelected: (User) -> Unit) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
+        // ViewHolder class para el RecyclerView
     inner class UserViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvUsuario: TextView = view.findViewById(R.id.tvUsuario)
         val btSeguir: Button = view.findViewById(R.id.btSeguir)
@@ -50,14 +48,14 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
         val user = users[position]
         holder.tvUsuario.text = user.nombre
 
-        // Get the current user's ID
+        // Obtener el ID del usuario actual
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid
 
-        // Create a reference to the Firestore database
+        // Referencia a la base de datos
         val db = FirebaseFirestore.getInstance()
 
+        // Comprobar si el usuario actual ya sigue al usuario actual
         if (currentUserId != null) {
-            // Check if the user is already followed
             db.collection("users").document(currentUserId).collection("seguidos")
                 .whereEqualTo("uid", user.uid)
                 .get()
@@ -70,6 +68,7 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
                 }
         }
 
+        // Navegar al perfil del usuario al hacer clic en la foto de perfil
         holder.ivFotoPerfil.setOnClickListener {
             val db = FirebaseFirestore.getInstance()
             db.collection("users")
@@ -101,6 +100,7 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
                 }
         }
 
+        // Seguir al usuario al hacer clic en el botón
         holder.btSeguir.setOnClickListener {
             // Create a new document in the "seguidos" collection of the current user
             val followedUser = hashMapOf(
@@ -145,8 +145,10 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
         }
     }
 
+    // Devuelve el número de elementos en la lista
     override fun getItemCount() = users.size
 
+    // Actualiza la lista de usuarios
     @SuppressLint("NotifyDataSetChanged")
     fun filterList(filteredList: List<User>) {
         users = filteredList

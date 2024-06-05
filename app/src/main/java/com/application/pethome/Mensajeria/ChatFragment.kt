@@ -7,18 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.application.pethome.R
 import com.application.pethome.databinding.FragmentChatBinding
-import com.application.pethome.databinding.FragmentMainBinding
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.application.pethome.Mascota
-import com.application.pethome.Mesage
-import com.application.pethome.User
+import com.application.pethome.Objetos.Mesage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.Query
-import com.squareup.picasso.Picasso
 import java.util.UUID
 
 class ChatFragment : Fragment() {

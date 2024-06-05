@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.application.pethome.User
+import com.application.pethome.Objetos.User
 import com.application.pethome.databinding.FragmentBuscadorBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,14 +28,16 @@ class BuscadorFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBuscadorBinding.inflate(inflater, container, false)
-        userAdapter = UserAdapter(listOf()) { user ->
 
+        //Inicializar el adaptador y el RecyclerView
+        userAdapter = UserAdapter(listOf()) { user ->
         }
         binding.rvUsuarios.adapter = userAdapter
         binding.rvUsuarios.layoutManager = LinearLayoutManager(context)
 
         getUsers()
 
+        //Agregar un listener al SearchView para filtrar la lista de usuarios
         binding.svBuscador.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -53,6 +55,7 @@ class BuscadorFragment : Fragment() {
         return binding.root
     }
 
+    //Obtener la lista de usuarios de la base de datos
     private fun getUsers() {
         val db = FirebaseFirestore.getInstance()
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid

@@ -1,4 +1,4 @@
-package com.application.pethome
+package com.application.pethome.Objetos
 
 data class Mascota (
     var imagen: String = "",

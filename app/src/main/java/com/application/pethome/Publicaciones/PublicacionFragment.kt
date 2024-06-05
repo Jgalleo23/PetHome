@@ -1,6 +1,7 @@
-package com.application.pethome
+package com.application.pethome.Publicaciones
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.application.pethome.R
 import com.application.pethome.databinding.FragmentPublicacionBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,6 +27,7 @@ class PublicacionFragment : Fragment() {
         get() = _binding ?: throw IllegalStateException("Binding is not initialized")
 
     private val PICK_IMAGE_REQUEST = 71
+    private val REQUEST_IMAGE_CAPTURE = 1
 
     private lateinit var db: FirebaseFirestore
 
@@ -36,7 +39,7 @@ class PublicacionFragment : Fragment() {
         db = FirebaseFirestore.getInstance()
 
         binding.ivFoto.setOnClickListener {
-            openImageChooser()
+            showImagePickDialog()
         }
 
         binding.btSubir.setOnClickListener {
@@ -45,6 +48,11 @@ class PublicacionFragment : Fragment() {
                     .show()
                 return@setOnClickListener
             } else {
+                // Desactivar los campos
+                binding.ivFoto.isEnabled = false
+                binding.etDescripcion.isEnabled = false
+                binding.btSubir.isEnabled = false
+
                 val user = FirebaseAuth.getInstance().currentUser?.uid
                 var nombre = ""
                 var descripcion = binding.etDescripcion.text.toString()
@@ -101,11 +109,21 @@ class PublicacionFragment : Fragment() {
                                             Toast.LENGTH_SHORT
                                         ).show()
                                     }
-                                    // Ocultar el ProgressBar
+                                    // Ocultar el ProgressBar y reactivar los campos
                                     binding.progressBar.visibility = View.GONE
+                                    binding.ivFoto.isEnabled = true
+                                    binding.etDescripcion.isEnabled = true
+                                    binding.btSubir.isEnabled = true
                                 }
                         }
                     }
+                }.addOnFailureListener {
+                    // En caso de error, ocultar el ProgressBar y reactivar los campos
+                    binding.progressBar.visibility = View.GONE
+                    binding.ivFoto.isEnabled = true
+                    binding.etDescripcion.isEnabled = true
+                    binding.btSubir.isEnabled = true
+                    Toast.makeText(context, "Error al subir la imagen", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -116,15 +134,23 @@ class PublicacionFragment : Fragment() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(
-            Intent.createChooser(intent, "Select Picture"),
-            PICK_IMAGE_REQUEST
-        )
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
+    }
+
+    private fun openCamera() {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
     }
 
     // Esta función maneja el resultado de la selección de la imagen
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            binding.ivFoto.setImageBitmap(imageBitmap)
+            binding.ivFoto.background = null
+        }
+
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
             val uri = data.data
             try {
@@ -135,5 +161,18 @@ class PublicacionFragment : Fragment() {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun showImagePickDialog() {
+        val options = arrayOf("Tomar foto", "Seleccionar de la galería")
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Elige una opción")
+        builder.setItems(options) { _, which ->
+            when (which) {
+                0 -> openCamera() // Si elige "Tomar foto", llama a openCamera()
+                1 -> openImageChooser() // Si elige "Seleccionar de la galería", llama a openImageChooser()
+            }
+        }
+        builder.show()
     }
 }

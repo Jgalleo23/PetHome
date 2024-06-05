@@ -1,9 +1,11 @@
-package com.application.pethome
+package com.application.pethome.Publicaciones
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.application.pethome.Objetos.Publication
+import com.application.pethome.R
 import com.application.pethome.databinding.PublicationModelBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
