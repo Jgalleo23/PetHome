@@ -81,16 +81,25 @@ class RegisterFragment : Fragment() {
         binding.btnRegistrar.setOnClickListener {
             // Mostrar el ProgressBar
             binding.progressBar.visibility = View.VISIBLE
+            binding.btnRegistrar.isEnabled = false
+            binding.txtISesion.isEnabled = false
 
             if (binding.etCorreo.text.toString().isEmpty() ||
                 binding.etContrasena.text.isEmpty() ||
                 binding.etDescripcion.text.toString().isEmpty() ||
                 binding.etUsuario.text.toString().isEmpty() ||
-                spinnerSexo.selectedItem == null ||
-                binding.ivPerfil.drawable == null
+                spinnerSexo.selectedItem == null
             ) {
-                Toast.makeText(context, "Por favor, rellene todos los campos", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(context, "Por favor, rellene todos los campos", Toast.LENGTH_SHORT).show()
+                binding.progressBar.visibility = View.GONE
+                binding.btnRegistrar.isEnabled = true
+                binding.txtISesion.isEnabled = true
+                return@setOnClickListener
+            } else if (binding.ivPerfil.drawable == null) {
+                Toast.makeText(context, "Por favor, seleccione una foto de perfil", Toast.LENGTH_SHORT).show()
+                binding.progressBar.visibility = View.GONE
+                binding.btnRegistrar.isEnabled = true
+                binding.txtISesion.isEnabled = true
                 return@setOnClickListener
             } else {
                 FirebaseAuth.getInstance().createUserWithEmailAndPassword(
@@ -108,6 +117,9 @@ class RegisterFragment : Fragment() {
                                                 "Fetching FCM registration token failed",
                                                 tokenTask.exception
                                             )
+                                            binding.btnRegistrar.isEnabled = true
+                                            binding.progressBar.visibility = View.GONE
+                                            binding.txtISesion.isEnabled = true
                                             return@OnCompleteListener
                                         }
                                         val correo = binding.etCorreo.text.toString().trim()
@@ -170,10 +182,16 @@ class RegisterFragment : Fragment() {
                                     "Error al enviar correo de verificación",
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                binding.btnRegistrar.isEnabled = true
+                                binding.progressBar.visibility = View.GONE
+                                binding.txtISesion.isEnabled = true
                             }
                         }
                     } else {
                         binding.etCorreo.error = "Ha ocurrido un error"
+                        binding.btnRegistrar.isEnabled = true
+                        binding.progressBar.visibility = View.GONE
+                        binding.txtISesion.isEnabled = true
                     }
                 }
             }
