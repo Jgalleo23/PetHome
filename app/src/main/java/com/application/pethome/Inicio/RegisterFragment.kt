@@ -151,7 +151,8 @@ class RegisterFragment : Fragment() {
                                                     "sexo" to sexo,
                                                     "descripcion" to descripcion,
                                                     "imagen" to imageUrl,
-                                                    "token" to token
+                                                    "token" to token,
+                                                    "verificado" to false
                                                 )
 
                                                 db.collection("users").document(user.uid)

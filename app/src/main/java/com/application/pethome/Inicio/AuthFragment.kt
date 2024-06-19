@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.application.pethome.R
 import com.application.pethome.databinding.FragmentAuthBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class AuthFragment : Fragment() {
     //Implementa binding
@@ -27,6 +28,9 @@ class AuthFragment : Fragment() {
             handler.postDelayed(this, 2000)
         }
     }
+
+    private lateinit var db: FirebaseFirestore
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,8 +56,22 @@ class AuthFragment : Fragment() {
         val user = FirebaseAuth.getInstance().currentUser
         user?.reload()?.addOnCompleteListener {
             if (user.isEmailVerified) {
-                // Si el correo electrónico ha sido verificado, redirigir al LoginFragment
-                findNavController().navigate(R.id.action_authFragment_to_loginFragment)
+                // Si el correo electrónico ha sido verificado, comprobar si el usuario ha sido verificado
+                db.collection("users").document(user.uid).get()
+                    .addOnSuccessListener { document ->
+                        val isVerified = document.getBoolean("verificado") ?: false
+                        if (isVerified) {
+                            // Si el usuario ha sido verificado, redirigir al LoginFragment
+                            findNavController().navigate(R.id.action_authFragment_to_loginFragment)
+                        } else {
+                            // Si el usuario no ha sido verificado, mostrar un mensaje
+                            Toast.makeText(
+                                context,
+                                "Por favor, verifica tu cuenta",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
             } else {
                 // Si el correo electrónico no ha sido verificado, mostrar un mensaje
                 Toast.makeText(

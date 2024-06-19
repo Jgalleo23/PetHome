@@ -63,6 +63,7 @@
         android:background="@android:color/transparent"
         android:src="@drawable/comment_icon"
         app:layout_constraintStart_toEndOf="@+id/btMeGusta"
-        app:layout_constraintTop_toTopOf="@+id/btMeGusta" />
+        app:layout_constraintTop_toTopOf="@+id/btMeGusta"
+        android:paddingBottom="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

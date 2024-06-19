@@ -67,7 +67,7 @@ class LoginFragment : Fragment() {
                     binding.etContrasena.text.toString()
                 )
                     .addOnCompleteListener() {
-                        if (it.isSuccessful) {
+                        if (it.isSuccessful && FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
                             findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                         } else {
                             binding.etUsuario.setError("Usuario o contraseña incorrectos")
