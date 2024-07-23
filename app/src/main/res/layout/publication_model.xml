@@ -4,12 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivPerfil"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:src="@drawable/account_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -53,17 +52,7 @@
         android:background="@android:color/transparent"
         android:src="@drawable/like_icon"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNUDescripcion" />
-
-    <ImageButton
-        android:id="@+id/btComentario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/comment_icon"
-        app:layout_constraintStart_toEndOf="@+id/btMeGusta"
-        app:layout_constraintTop_toTopOf="@+id/btMeGusta"
-        android:paddingBottom="20dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvNUDescripcion"
+        android:paddingBottom="80dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

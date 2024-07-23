@@ -55,8 +55,6 @@ class PUBuscadorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
         // Obtener el usuario de los argumentos
         val user: User? = arguments?.getParcelable("user")
 

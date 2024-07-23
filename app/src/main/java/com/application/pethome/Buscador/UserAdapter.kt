@@ -18,6 +18,7 @@ import com.application.pethome.Objetos.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
 
 class UserAdapter(private var users: List<User>, private val userSelected: (User) -> Unit) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
@@ -67,6 +68,20 @@ class UserAdapter(private var users: List<User>, private val userSelected: (User
                     }
                 }
         }
+
+        // Cargar la foto de perfil del usuario
+        db.collection("users").document(user.uid).get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val fotoPerfilUrl = document.getString("imagen")
+                    if (!fotoPerfilUrl.isNullOrEmpty()) {
+                        Picasso.get().load(fotoPerfilUrl).resize(100, 100).centerCrop()
+                            .into(holder.ivFotoPerfil)
+                    } else {
+                        holder.ivFotoPerfil.setImageResource(R.drawable.account_icon)
+                    }
+                }
+            }
 
         // Navegar al perfil del usuario al hacer clic en la foto de perfil
         holder.ivFotoPerfil.setOnClickListener {
